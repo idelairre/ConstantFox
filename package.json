@@ -1,8 +1,8 @@
 {
-  "name": "constantFox",
+  "name": "constant-fox",
   "version": "0.0.1",
   "description": "",
-  "main": "dist/constants.js",
+  "main": "lib/constants.js",
   "jsnext:main": "src/constants.js",
   "files": [
     "lib",
