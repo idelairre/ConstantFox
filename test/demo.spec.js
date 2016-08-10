@@ -1,4 +1,4 @@
-import Constants from '../lib/constants-fox.min';
+import Constants from '../src/constants';
 import * as Utils from '../src/helpers';
 
 let jasmine = jasmine || {};

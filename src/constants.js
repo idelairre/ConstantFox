@@ -1,7 +1,6 @@
 import EventEmitter from 'eventemitter3';
+import fs from 'fs';
 import * as Utils from './helpers';
-
-const fs = require('fs');
 
 export default class Constants extends EventEmitter {
   _previous = {};
