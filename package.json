@@ -1,11 +1,10 @@
 {
-  "name": "constantsFox",
+  "name": "constantFox",
   "version": "0.0.1",
   "description": "",
   "main": "dist/constants.js",
   "jsnext:main": "src/constants.js",
   "files": [
-    "dist",
     "lib",
     "src"
   ],
@@ -18,15 +17,15 @@
     "build:umd:min": "webpack src/constants.js --config webpack/webpack.config.production.js",
     "build": "npm run clean && npm run build:umd:min"
   },
-  "npmName": "tumblrfox-data-source",
+  "npmName": "constant-fox",
   "author": "Ian Delairre <idelairre@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/idelairre/TumblrFoxDataSource"
+    "url": "git+https://github.com/idelairre/ConstantFox"
   },
   "bugs": {
-    "url": "https://github.com/idelairre/TumblrFoxDataSource/issues"
+    "url": "https://github.com/idelairre/ConstantFox/issues"
   },
   "keywords": [
     "constants"
