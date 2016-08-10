@@ -1,9 +1,9 @@
 {
-  "name": "constant-fox",
+  "name": "constants-fox",
   "version": "0.0.1",
   "description": "",
-  "main": "lib/constants.js",
-  "jsnext:main": "src/constants.js",
+  "main": "lib/constants-fox.min.js",
+  "jsnext:main": "src/index.js",
   "files": [
     "lib",
     "src"
@@ -17,15 +17,15 @@
     "build:umd:min": "webpack src/constants.js --config webpack/webpack.config.production.js",
     "build": "npm run clean && npm run build:umd:min"
   },
-  "npmName": "constant-fox",
+  "npmName": "constants-fox",
   "author": "Ian Delairre <idelairre@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/idelairre/ConstantFox"
+    "url": "git+https://github.com/idelairre/ConstantsFox"
   },
   "bugs": {
-    "url": "https://github.com/idelairre/ConstantFox/issues"
+    "url": "https://github.com/idelairre/ConstantsFox/issues"
   },
   "keywords": [
     "constants"
@@ -34,6 +34,7 @@
     "babel-core": "^6.7.2",
     "babel-eslint": "^4.1.0",
     "babel-loader": "^6.2.4",
+    "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-class-properties": "^6.9.0",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",

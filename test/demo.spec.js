@@ -1,4 +1,4 @@
-import Constants from '../src/constants';
+import Constants from '../lib/constantFox';
 import * as Utils from '../src/helpers';
 
 let jasmine = jasmine || {};

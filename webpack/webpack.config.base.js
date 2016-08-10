@@ -1,8 +1,7 @@
 'use strict';
 
 var path = require('path');
-
-var libraryName = 'constantFox';
+var libraryName = require('../package.json').name;
 var outputFile = libraryName + '.js';
 
 module.exports = {
@@ -20,11 +19,6 @@ module.exports = {
   },
   module: {
     noParse: /node_modules\/json-schema\/lib\/validate\.js/,
-    preLoaders: [{
-      test: /\.json$/,
-      loader: 'json-loader',
-      exclude: /node_modules/
-    }],
     loaders: [{
       test: /\.js$/,
       loader: 'babel?cacheDirectory',

@@ -3,6 +3,8 @@
 var webpack = require('webpack');
 var baseConfig = require('./webpack.config.base');
 
+baseConfig.output.filename = baseConfig.output.filename.replace(/\.js$/, '.min.js');
+
 var config = Object.create(baseConfig);
 config.plugins = [
   new webpack.optimize.OccurenceOrderPlugin(),
@@ -11,6 +13,7 @@ config.plugins = [
   }),
   new webpack.optimize.DedupePlugin(),
   new webpack.optimize.UglifyJsPlugin({
+    minimize: true,
     compressor: {
       warnings: false
     }
