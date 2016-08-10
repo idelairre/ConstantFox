@@ -1,9 +1,9 @@
 {
-  "name": "tumblelog-generator",
+  "name": "constantsFox",
   "version": "0.0.1",
   "description": "",
-  "main": "dist/index.js",
-  "jsnext:main": "src/index.js",
+  "main": "dist/constants.js",
+  "jsnext:main": "src/constants.js",
   "files": [
     "dist",
     "lib",
@@ -12,25 +12,24 @@
   "scripts": {
     "clean": "rimraf lib dist",
     "lint": "eslint src test",
-    "start": "babel-node src/blog.js",
     "test": "karma start karma/karma.config.development.js",
     "test:teamcity": "karma start karma/karma.config.production.js",
-    "build:umd": "webpack src/index.js dist/tumblelog-generator.js --config webpack/webpack.config.development.js",
-    "build:umd:min": "webpack src/index.js dist/tumblelog-generator.min.js --config webpack/webpack.config.production.js",
-    "build": "npm run clean && npm run build:umd && npm run build:umd:min"
+    "build:umd": "webpack src/constants.js --config webpack/webpack.config.development.js",
+    "build:umd:min": "webpack src/constants.js --config webpack/webpack.config.production.js",
+    "build": "npm run clean && npm run build:umd:min"
   },
-  "npmName": "tumblelog-generator",
+  "npmName": "tumblrfox-data-source",
   "author": "Ian Delairre <idelairre@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/idelairre/tumblelog-generator"
+    "url": "git+https://github.com/idelairre/TumblrFoxDataSource"
   },
   "bugs": {
-    "url": "https://github.com/idelairre/tumblelog-generator/issues"
+    "url": "https://github.com/idelairre/TumblrFoxDataSource/issues"
   },
   "keywords": [
-    "tumblelog-generator"
+    "constants"
   ],
   "devDependencies": {
     "babel-core": "^6.7.2",
@@ -41,12 +40,14 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-runtime": "^6.5.x",
     "eslint": "^1.7.1",
+    "jasmine": "^2.4.1",
     "jasmine-core": "^2.4.1",
-    "json-loader": "^0.5.4",
-    "json5": "^0.4.0",
     "karma": "^0.13.9",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-firefox-launcher": "^1.0.0",
     "karma-htmlfile-reporter": "latest",
     "karma-jasmine": "^0.3.8",
+    "karma-nodewebkit-launcher": "0.0.12",
     "karma-phantomjs-launcher": "latest",
     "karma-teamcity-reporter": "latest",
     "karma-webpack": "^1.7.0",
@@ -55,27 +56,6 @@
     "webpack": "^1.12.13"
   },
   "dependencies": {
-    "babel-cli": "^6.11.4",
-    "babel-polyfill": "^6.9.1",
-    "es6-promise": "latest",
-    "faker": "^3.1.0",
-    "gingerbread": "^0.5.0",
-    "lodash": "^4.2.1",
-    "markovchain": "^1.0.2",
-    "natural": "^0.4.0",
-    "nlp-corpus": "0.0.4",
-    "nlp-syllables": "0.0.5",
-    "nlp_compromise": "^6.5.0",
-    "pos": "^0.3.0",
-    "random-words": "0.0.1",
-    "raw-loader": "^0.5.1",
-    "sentencer": "^0.1.5",
-    "speller": "^1.0.1",
-    "synaptic": "^1.0.8",
-    "tensify": "0.0.2",
-    "typo-js": "^1.0.1",
-    "word2vec": "^1.1.0",
-    "wordnet-db": "^3.1.2",
-    "wordnetjs": "^0.3.0"
+    "babel-cli": "^6.11.4"
   }
 }

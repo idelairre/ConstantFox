@@ -1,6 +1,6 @@
-var path = require('path');
-
 'use strict';
+
+var path = require('path');
 
 module.exports = {
   basePath: '../',
@@ -8,7 +8,7 @@ module.exports = {
   singleRun: true,
   colors: true,
   frameworks: ['jasmine'],
-  browsers: ['PhantomJS'],
+  browsers: ['Chrome', 'Firefox', 'PhantomJS'],
   files: ['./test/**/*.spec.js'],
   preprocessors: {
     './test/**/*.spec.js': ['webpack']
@@ -40,6 +40,13 @@ module.exports = {
     }
   },
   webpackMiddleware: {
-    noInfo: true
+    stats: {
+      chunks: false,
+      errors: false,
+      colors: true,
+      modules: false,
+      noInfo: true,
+      warnings: false
+    }
   }
 }
