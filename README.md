@@ -25,7 +25,7 @@ constants.get('isTheWorst') // returns 'meme';
 ```
 const constants = new Constants();
 
-for (let i = 0; i < 10; i += 1) {
+for (let i = 0; i < 11; i += 1) {
   constants.set('i', i);
 }
 

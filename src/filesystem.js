@@ -2,12 +2,12 @@ import * as Utils from './helpers';
 
 const mockChromeApiWithFileSystem = constants => {
   if (!Utils.access('./constants.json')) {
-    Utils.write('./constants.json', constants.defaults);
+    Utils.write('./constants.json', constants._defaults);
   } else {
     const vals = Utils.read('./constants.json');
-    if (!Utils.isEqual(constants.defaults, vals)) {
-      Object.assign(constants.defaults, vals);
-      Utils.write('./constants.json', constants.defaults);
+    if (!Utils.isEqual(constants._defaults, vals)) {
+      Object.assign(constants._defaults, vals);
+      Utils.write('./constants.json', constants._defaults);
     }
   }
   const storage = {};
@@ -49,7 +49,7 @@ const mockChromeApiWithFileSystem = constants => {
           saved[key] = items[key];
         }
       }
-      Utils.write('./constants.json', constants);
+      Utils.write('./constants.json', saved);
       if (callback) {
         callback();
       }

@@ -6,7 +6,7 @@ import * as Utils from '../src/helpers';
 jasmine = new Jasmine();
 
 const constants = {
-  defaults: {
+  _defaults: {
     shelly: 'john',
     friends: 'are my',
     people: 'they know',
@@ -14,7 +14,7 @@ const constants = {
   }
 };
 
-Utils.write('./constants.json', constants.defaults);
+Utils.write('./constants.json', constants._defaults);
 
 const storage = mockChromeApiWithFileSystem(constants);
 
@@ -32,7 +32,7 @@ describe('mockChromeApiWithFileSystem', () => {
         neck: ''
       };
       storage.local.get(test, items => {
-        expect(items).toEqual(constants.defaults);
+        expect(items).toEqual(constants._defaults);
       });
     });
   });

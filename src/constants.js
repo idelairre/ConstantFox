@@ -8,20 +8,19 @@ import './polyfill';
 
 export default class Constants extends EventEmitter {
   _previous = {};
-  _debug = false;
-  defaults = {};
-  storage = {
+  _defaults = {};
+  _storage = {
     local: {},
     sync: {}
   };
-  env = null;
-  initialized = false;
+  _env = null;
+  _initialized = false;
 
   constructor(options) {
     super();
+    Object.assign(this._previous, options);
+    Object.assign(this._defaults, options);
 
-    Object.assign(this.defaults, options);
-    
     this.once('ready', () => {
       for (const key in options) {
         if (Utils.checkProperty(options, key)) {
@@ -32,30 +31,34 @@ export default class Constants extends EventEmitter {
       }
     });
 
-    this.detectContext(::this.initialize);
+    this._detectContext(::this.initialize);
   }
 
   initialize() {
     this._initializeStorageValues(() => {
-      if (this.initialized) {
+      if (this._initialized) {
         this.emit('reset');
         return;
       }
-      this.initialized = true;
+      this._initialized = true;
       this.emit('ready');
     });
   }
 
-  detectContext(callback) { // TODO: add a delete or clear function so that storage can be reset
+  getEnv() {
+    return this._env;
+  }
+
+  _detectContext(callback) { // TODO: add a delete or clear function so that storage can be reset
     if (Utils.isNode()) {
-      this.storage = mockChromeApiWithFileSystem(this);
-      this.env = 'node';
+      this._storage = mockChromeApiWithFileSystem(this);
+      this._env = 'node';
     } else if (Utils.isChromeExtension()) {
-      this.storage.local = chrome.storage.local;
-      this.env = 'chrome';
+      this._storage.local = chrome.storage.local;
+      this._env = 'chrome';
     } else if (Utils.isBrowser()) {
-      this.storage = mockChromeApiWithLocalStorage(this);
-      this.env = 'browser';
+      this._storage = mockChromeApiWithLocalStorage(this);
+      this._env = 'browser';
     } else {
       throw new Error('Cannot detect JavaScript context');
     }
@@ -65,7 +68,7 @@ export default class Constants extends EventEmitter {
   }
 
   clear() {
-    this.storage.local.clear();
+    this._storage.local.clear();
   }
 
   get(key) {
@@ -91,19 +94,19 @@ export default class Constants extends EventEmitter {
   set(key, value) {
     if (typeof key === 'object') {
       this._assign(key);
-      this.storage.local.set(key);
+      this._storage.local.set(key);
     } else {
       this._previous[key] = this[key];
       this[key] = value;
       const storageSlug = {}; // NOTE: you need to use this pattern in order to programmatically set chrome storage key value pairs
       storageSlug[key] = value;
-      this.storage.local.set(storageSlug);
+      this._storage.local.set(storageSlug);
     }
     this.emit('change', this.toJSON());
   }
 
   remove(key) {
-    return this.storage.local.remove(key)
+    return this._storage.local.remove(key)
   }
 
   previous(key) {
@@ -114,13 +117,13 @@ export default class Constants extends EventEmitter {
   }
 
   reset() {
-    this.set(this.defaults);
+    this.set(this._defaults);
     this.initialize();
   }
 
   toJSON() {
     const vals = {};
-    Object.keys(this.defaults).forEach(key => {
+    Object.keys(this._defaults).forEach(key => {
       vals[key] = this[key];
     });
     return Object.assign({}, vals);
@@ -129,9 +132,7 @@ export default class Constants extends EventEmitter {
   _assign(items) {
     for (const key in items) {
       if (Utils.checkProperty(items, key)) {
-        if (typeof this[key] === 'undefined' && !this.initialized) {
-          this._previous[key] = items[key];
-        } else if (typeof this[key] === 'undefined' && this.initialized) {
+        if (typeof this[key] === 'undefined') {
           this._previous[key] = undefined;
         } else {
           this._previous[key] = this[key];
@@ -142,8 +143,8 @@ export default class Constants extends EventEmitter {
   }
 
   _initializeStorageValues(callback) {
-    this.storage.local.get(this.defaults, items => {
-      this._assign(items);
+    this._storage.local.get(this._defaults, items => {
+      Object.assign(this, items);
       if (callback) {
         callback();
       }

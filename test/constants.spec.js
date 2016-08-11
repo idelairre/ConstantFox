@@ -10,6 +10,12 @@ if (Utils.isNode()) {
 }
 
 describe('Constants', () => {
+  beforeAll(() => {
+    const constants = new Constants();
+    for (let i = 0; i < 11; i += 1) {
+      constants.set('i', i);
+    }
+  });
   it ('should work', () => {
     const constants = new Constants({
       lol: 'lol'
@@ -22,10 +28,18 @@ describe('Constants', () => {
       ohShit: 'whaddup'
     });
     if (Utils.isBrowser()) {
-      expect(constants.env).toEqual('browser');
+      expect(constants.getEnv()).toEqual('browser');
     } else {
-      expect(constants.env).toEqual('node');
+      expect(constants.getEnv()).toEqual('node');
     }
+  });
+
+  it ('should assign default values to the "_previous" hash', () => {
+    const constants = new Constants({
+      i: 0
+    });
+    expect(constants.previous('i')).toEqual(0);
+    expect(constants.get('i')).toEqual(10);
   });
 
   describe('get()', () => {
@@ -60,29 +74,37 @@ describe('Constants', () => {
       expect(constants.get('billy')).toEqual('hey billy');
       expect(constants.get('oh')).toEqual('raw');
     });
-  });
 
-  describe('clear()', () => {
-    it ('should remove all managed values from local storage', () => {
+    it ('should use arguments as the response values when unassigned values are requested', () => {
       const constants = new Constants({
-        balls: 'wtf',
-        derp: 'herp'
+        top: 'kek'
       });
-      constants.clear();
-      expect(constants.get('balls')).toBeUndefined();
-      expect(constants.get('derp')).toBeUndefined();
+      expect(constants.get({ omg: 'lol' })).toEqual({ omg: 'lol' });
+      expect(constants.get('omg')).toEqual('lol');
     });
   });
 
-  describe('remove()', () => {
-    it ('should remove the given key from storage', () => {
-      const constants = new Constants({
-        meep: 'meep',
-      });
-      constants.remove('meep');
-      expect(constants.get('meep')).toBeUndefined();
-    });
-  });
+  // describe('clear()', () => {
+  //   it ('should remove all managed values from local storage', () => {
+  //     const constants = new Constants({
+  //       balls: 'wtf',
+  //       derp: 'herp'
+  //     });
+  //     constants.clear();
+  //     expect(constants.get('balls')).toBeUndefined();
+  //     expect(constants.get('derp')).toBeUndefined();
+  //   });
+  // });
+  //
+  // describe('remove()', () => {
+  //   it ('should remove the given key from storage', () => {
+  //     const constants = new Constants({
+  //       meep: 'meep',
+  //     });
+  //     constants.remove('meep');
+  //     expect(constants.get('meep')).toBeUndefined();
+  //   });
+  // });
 });
 
 if (Utils.isNode()) {
