@@ -1,4 +1,4 @@
-# ConstantFox
+# ConstantsFox
 
 Utility for TumblrFox that synchronously accesses stored values using the chrome extension storage api. Emits change, initialization, and reset events. Automatically detects JS environment and adapts storage strategy.
 
@@ -16,6 +16,8 @@ constants.get('dat') // return 'boi'
 constants.get('ohShit') // returns 'whaddup'
 
 constants.get({ dat: '', ohShit: '' }) // returns { dat: 'boi', ohShit: 'whaddup' }
+constants.get({ dat: '', ohShit: '', isTheWorst: 'meme' }) returns { dat: 'boi', ohShit: 'whaddup', isTheWorst: 'meme' }
+constants.get('isTheWorst') // returns 'meme';
 
 ```
 # Another example

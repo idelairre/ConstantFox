@@ -21,6 +21,7 @@ export default class Constants extends EventEmitter {
     super();
 
     Object.assign(this.defaults, options);
+    
     this.once('ready', () => {
       for (const key in options) {
         if (Utils.checkProperty(options, key)) {
@@ -33,17 +34,6 @@ export default class Constants extends EventEmitter {
 
     this.detectContext(::this.initialize);
   }
-
-  // debug() {
-  //   this._debug = !this._debug;
-  //   this.log('[CONSTANTS] debug enabled', this._debug);
-  // }
-  //
-  // log() {
-  //   if (this._debug) {
-  //     console.log.apply(console, arguments);
-  //   }
-  // }
 
   initialize() {
     this._initializeStorageValues(() => {
@@ -86,6 +76,9 @@ export default class Constants extends EventEmitter {
         if (Utils.checkProperty(hash, _key)) {
           if (this[_key]) {
             response[_key] = this[_key];
+          } else {
+            response[_key] = hash[_key];
+            this.set(_key, hash[_key]);
           }
         }
       }
@@ -136,8 +129,10 @@ export default class Constants extends EventEmitter {
   _assign(items) {
     for (const key in items) {
       if (Utils.checkProperty(items, key)) {
-        if (typeof this[key] === 'undefined') {
-          this._previous[key] = items[key]; // we'll assume here this is on initialization
+        if (typeof this[key] === 'undefined' && !this.initialized) {
+          this._previous[key] = items[key];
+        } else if (typeof this[key] === 'undefined' && this.initialized) {
+          this._previous[key] = undefined;
         } else {
           this._previous[key] = this[key];
         }
