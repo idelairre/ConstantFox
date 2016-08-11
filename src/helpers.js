@@ -62,3 +62,7 @@ export const isEqual = (source, target) => {
     return true;
   }
 }
+
+export const isNumeric = n => {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}

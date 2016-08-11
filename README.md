@@ -4,7 +4,7 @@ Utility for TumblrFox that synchronously accesses stored values using the chrome
 
 Functions very similarly to a Backbone model.
 
-# Example
+# Examples
 
 ```   
 const constants = new Constants({
@@ -20,7 +20,7 @@ constants.get({ dat: '', ohShit: '', isTheWorst: 'meme' }) returns { dat: 'boi',
 constants.get('isTheWorst') // returns 'meme';
 
 ```
-# Another example
+
 
 ```
 const constants = new Constants();
@@ -38,8 +38,6 @@ const constants = new Constants({
 constants.get('i') // returns 10
 constants.previous('i') // returns 0
 ```
-
-# Another example
 
 ConstantsFox is meant to be as simple as possible. It is legal (for now) to directly access stored members. Just don't write to them unless you want things to get funky.
 

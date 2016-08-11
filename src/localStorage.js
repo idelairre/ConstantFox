@@ -11,13 +11,19 @@ const mockChromeApiWithLocalStorage = constants => {
         const hash = key;
         const response = {};
         for (const _key in hash) {
-          const item = localStorage.getItem(_key);
+          let item = localStorage.getItem(_key);
+          if (Utils.isNumeric(item)) {
+            item = parseFloat(item);
+          }
           response[_key] = item;
         }
         return callback(response);
       } else if (typeof key === 'string') {
         const response = {};
         response[key] = localStorage.getItem(key);
+        if (Utils.isNumeric(response[key])) {
+          response[key] = parseFloat(response[key]);
+        }
         return callback(response);
       }
     },
