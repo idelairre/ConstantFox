@@ -1,10 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 
-export const isBrowser = new Function("try {return window;}catch(e){ return false;}");
+export const isBrowser = new Function("try {return !!window;}catch(e){ return false;}");
+
 export const isChrome = new Function("try {return ('chrome' in window);}catch(e){return false;}");
+
 export const isNode = new Function("try {return process.title;}catch(e){return false;}");
-export const storageEnabled = new Function("typeof chrome.storage !== 'undefined'");
+
+export const storageEnabled = new Function("return (typeof chrome.storage !== 'undefined')");
+
 export const isChromeExtension = () => isBrowser() && isChrome() && storageEnabled();
 
 export const write = (filename, data) => {
@@ -76,6 +80,9 @@ export const isNumeric = n => {
 }
 
 export const isBoolean = test => {
+  if (test === (true || false)) {
+    return true;
+  }
   if (test.match(/true/) || test.match(/false/)) {
     return true;
   }
@@ -83,6 +90,9 @@ export const isBoolean = test => {
 }
 
 export const isNull = test => {
+  if (test === null) {
+    return true;
+  }
   if (test.match(/null/)) {
     return true;
   }
