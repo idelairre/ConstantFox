@@ -1,27 +1,64 @@
+import fs from 'fs';
+import path from 'path';
+
 export const isBrowser = new Function("try {return window;}catch(e){ return false;}");
 export const isChrome = new Function("try {return ('chrome' in window);}catch(e){return false;}");
 export const isNode = new Function("try {return process.title;}catch(e){return false;}");
 export const storageEnabled = new Function("typeof chrome.storage !== 'undefined'");
 export const isChromeExtension = () => isBrowser() && isChrome() && storageEnabled();
 
-if (typeof Object.assign !== 'function') {
-  Object.assign = function(target) {
-    'use strict';
-    if (target === null) {
-      throw new TypeError('Cannot convert undefined or null to object');
-    }
+export const write = (filename, data) => {
+  if (typeof data !== 'string') {
+    data = JSON.stringify(data);
+  }
+  const file = path.join(process.cwd(), filename);
+  fs.writeFileSync(file, data, 'utf8');
+}
 
-    target = Object(target);
-    for (var index = 1; index < arguments.length; index++) {
-      var source = arguments[index];
-      if (source !== null) {
-        for (var key in source) {
-          if (Object.prototype.hasOwnProperty.call(source, key)) {
-            target[key] = source[key];
-          }
-        }
+export const read = filename => {
+  return JSON.parse(fs.readFileSync(path.join(process.cwd(), filename)));
+}
+
+export const access = filename => {
+  try {
+    const file = path.join(process.cwd(), filename);
+    if (fs.statSync(filename)) {
+      return true;
+    }
+  } catch (err) {
+    return false
+  }
+}
+
+export const isEmpty = item => {
+  if ((Array.isArray(item) || typeof item === 'string') && item.length === 0) {
+    return true;
+  }
+  if (typeof item === 'object' && Object.keys(items).length === 0) {
+    return true;
+  }
+  return false;
+}
+
+export const checkProperty = (object, property) => {
+  return {}.hasOwnProperty.call(object, property);
+}
+
+export const isEqual = (source, target) => {
+  if (source === target) {
+    return true;
+  }
+  if (Object.keys(source).length !== Object.keys(target).length) {
+    return false;
+  }
+  if (Object.keys(source) === Object.keys(target)) {
+    for (const key in source) {
+      const item = source[key];
+      const test = target[key];
+      if (item !== test) {
+        return false;
       }
     }
-    return target;
-  };
+    return true;
+  }
 }

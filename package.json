@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "",
   "main": "lib/constants-fox.min.js",
-  "jsnext:main": "src/index.js",
   "files": [
     "lib",
     "src"
@@ -12,6 +11,7 @@
     "clean": "rimraf lib dist",
     "lint": "eslint src test",
     "test": "karma start karma/karma.config.development.js",
+    "test:node": "find ./test -name '*.spec.js' | xargs -L 1 babel-node",
     "test:teamcity": "karma start karma/karma.config.production.js",
     "build:umd": "webpack src/constants.js --config webpack/webpack.config.development.js",
     "build:umd:min": "webpack src/constants.js --config webpack/webpack.config.production.js",

@@ -1,3 +1,4 @@
+import fs from 'fs';
 import Constants from '../src/constants';
 import * as Utils from '../src/helpers';
 
@@ -7,8 +8,6 @@ if (Utils.isNode()) {
   const Jasmine = require('jasmine');
   jasmine = new Jasmine();
 }
-
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
 describe('Constants', () => {
   it ('should work', () => {
@@ -41,13 +40,25 @@ describe('Constants', () => {
       expect(constants.get({ billy: '', oh: '' })).toEqual(vals);
     });
 
-    it ('should persist values to local storage', () => {
+    it ('should persist values to local storage or file system', () => {
       if (Utils.isBrowser()) {
         expect(localStorage.getItem('billy')).toEqual('hey billy');
         expect(localStorage.getItem('oh')).toEqual('raw');
       } else {
-
+        const constants = Utils.read('./constants.json');
+        expect(constants.billy).toEqual('hey billy');
+        expect(constants.oh).toEqual('raw');
       }
+    });
+
+    it ('should allow new instances of "Constants" to access stored items', () => {
+      const vals = {
+        billy: '',
+        oh: ''
+      };
+      const constants = new Constants(vals);
+      expect(constants.get('billy')).toEqual('hey billy');
+      expect(constants.get('oh')).toEqual('raw');
     });
   });
 

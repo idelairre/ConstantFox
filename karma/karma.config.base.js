@@ -9,18 +9,13 @@ module.exports = {
   colors: true,
   frameworks: ['jasmine'],
   browsers: ['Chrome', 'Firefox', 'PhantomJS'],
-  files: ['./test/**/*.spec.js'],
+  files: ['./test/constants.spec.js'],
   preprocessors: {
-    './test/**/*.spec.js': ['webpack']
+    './test/constants.spec.js': ['webpack']
   },
   webpack: {
     module: {
       noParse: /node_modules\/json-schema\/lib\/validate\.js/,
-      preLoaders: [{
-        test: /\.json$/,
-        loader: 'json-loader',
-        exclude: /node_modules/
-      }],
       loaders: [{
         test: /\.js$/,
         loader: 'babel?cacheDirectory',

@@ -6,6 +6,7 @@ var outputFile = libraryName + '.js';
 
 module.exports = {
   entry: './src/constants.js',
+  target: 'node',
   devtool: 'source-map',
   output: {
     path: './lib',
