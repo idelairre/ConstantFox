@@ -65,6 +65,18 @@ describe('Constants', () => {
       }
     });
 
+    it ('should convert numbers and booleans to their corresponding types on access', () => {
+      const vals = {
+        truth: false,
+        number: 10,
+        null: null
+      };
+      const constants = new Constants(vals);
+      expect(constants.get('truth')).toBe(false);
+      expect(constants.get('number')).toEqual(10);
+      expect(constants.get('null')).toEqual(null);
+    });
+
     it ('should allow new instances of "Constants" to access stored items', () => {
       const vals = {
         billy: '',

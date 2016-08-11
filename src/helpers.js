@@ -30,6 +30,14 @@ export const access = filename => {
   }
 }
 
+export const convertBool = test => {
+  if (test.match(/false/)) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 export const isEmpty = item => {
   if ((Array.isArray(item) || typeof item === 'string') && item.length === 0) {
     return true;
@@ -65,4 +73,18 @@ export const isEqual = (source, target) => {
 
 export const isNumeric = n => {
   return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+export const isBoolean = test => {
+  if (test.match(/true/) || test.match(/false/)) {
+    return true;
+  }
+  return false
+}
+
+export const isNull = test => {
+  if (test.match(/null/)) {
+    return true;
+  }
+  return false;
 }

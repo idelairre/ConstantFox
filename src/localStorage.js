@@ -1,5 +1,16 @@
 import * as Utils from './helpers';
 
+const marshalType = item => {
+  if (Utils.isNumeric(item)) {
+    item = parseFloat(item);
+  } else if (Utils.isNull(item)) {
+    item = null;
+  } else if (Utils.isBoolean(item)) {
+    item = Utils.convertBool(item);
+  }
+  return item;
+}
+
 const mockChromeApiWithLocalStorage = constants => {
   const storage = {};
   const storageApi = {
@@ -11,19 +22,13 @@ const mockChromeApiWithLocalStorage = constants => {
         const hash = key;
         const response = {};
         for (const _key in hash) {
-          let item = localStorage.getItem(_key);
-          if (Utils.isNumeric(item)) {
-            item = parseFloat(item);
-          }
+          const item = marshalType(localStorage.getItem(_key));
           response[_key] = item;
         }
         return callback(response);
       } else if (typeof key === 'string') {
         const response = {};
-        response[key] = localStorage.getItem(key);
-        if (Utils.isNumeric(response[key])) {
-          response[key] = parseFloat(response[key]);
-        }
+        response[key] = marshalType(localStorage.getItem(key));
         return callback(response);
       }
     },
