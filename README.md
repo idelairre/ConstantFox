@@ -39,5 +39,17 @@ constants.get('i') // returns 10
 constants.previous('i') // returns 0
 ```
 
+# Another example
+
+ConstantsFox is meant to be as simple as possible. It is legal (for now) to directly access stored members. Just don't write to them unless you want things to get funky.
+
+```
+const constants = new Constants({
+  wut: 'i dunno'
+});
+
+constants.wut // return 'i dunno'
+```
+
 [![Dependency Status](https://david-dm.org/idelairre/tumblelog-generator.svg)](https://david-dm.org/idelairre/ConstantFox)
 [![devDependency Status](https://david-dm.org/idelairre/tumblelog-generator/dev-status.svg)](https://david-dm.org/idelairre/ConstantFox#info=devDependencies)
