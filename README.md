@@ -29,6 +29,8 @@ for (let i = 0; i < 11; i += 1) {
   constants.set('i', i);
 }
 
+constants.previous(i); // returns 9
+
 // a few hours later...
 
 const constants = new Constants({
