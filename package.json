@@ -1,8 +1,8 @@
 {
-  "name": "constants-fox",
+  "name": "constant-fox",
   "version": "0.0.1",
   "description": "",
-  "main": "lib/constants-fox.min.js",
+  "main": "lib/constant-fox.min.js",
   "files": [
     "lib",
     "src"
@@ -17,7 +17,7 @@
     "build:umd:min": "webpack src/constants.js --config webpack/webpack.config.production.js",
     "build": "npm run clean && npm run build:umd:min"
   },
-  "npmName": "constants-fox",
+  "npmName": "constant-fox",
   "author": "Ian Delairre <idelairre@gmail.com>",
   "license": "MIT",
   "repository": {
@@ -47,7 +47,6 @@
     "karma-firefox-launcher": "^1.0.0",
     "karma-htmlfile-reporter": "latest",
     "karma-jasmine": "^0.3.8",
-    "karma-nodewebkit-launcher": "0.0.12",
     "karma-phantomjs-launcher": "latest",
     "karma-teamcity-reporter": "latest",
     "karma-webpack": "^1.7.0",

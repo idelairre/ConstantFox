@@ -6,6 +6,7 @@ var baseConfig = require('./webpack.config.base');
 baseConfig.output.filename = baseConfig.output.filename.replace(/\.js$/, '.min.js');
 
 var config = Object.create(baseConfig);
+
 config.plugins = [
   new webpack.optimize.OccurenceOrderPlugin(),
   new webpack.DefinePlugin({
