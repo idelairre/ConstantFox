@@ -71,6 +71,18 @@ export default class Constants extends EventEmitter {
     this._storage.local.clear();
   }
 
+  default(key) {
+    if (this._defaults[key]) {
+      return this._defaults[key];
+    } else {
+      throw new Error(`"${key}" does not have a default value`);
+    }
+  }
+
+  defaults() {
+    return this._defaults;
+  }
+
   get(key) {
     if (typeof key === 'object') {
       const response = {};
@@ -106,7 +118,7 @@ export default class Constants extends EventEmitter {
   }
 
   remove(key) {
-    return this._storage.local.remove(key)
+    return this._storage.local.remove(key);
   }
 
   previous(key) {
@@ -116,9 +128,13 @@ export default class Constants extends EventEmitter {
     return this._previous[key];
   }
 
-  reset() {
-    this.set(this._defaults);
-    this.initialize();
+  reset(key) {
+    if (typeof key !== 'undefined') {
+      this.set(key, this._defaults[key]);
+    } else {
+      this.set(this._defaults);
+      this.initialize();
+    }
   }
 
   toJSON() {

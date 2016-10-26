@@ -16,6 +16,7 @@ describe('Constants', () => {
       constants.set('i', i);
     }
   });
+
   it ('should work', () => {
     const constants = new Constants({
       lol: 'lol'
@@ -96,27 +97,82 @@ describe('Constants', () => {
     });
   });
 
-  // describe('clear()', () => {
-  //   it ('should remove all managed values from local storage', () => {
-  //     const constants = new Constants({
-  //       balls: 'wtf',
-  //       derp: 'herp'
-  //     });
-  //     constants.clear();
-  //     expect(constants.get('balls')).toBeUndefined();
-  //     expect(constants.get('derp')).toBeUndefined();
-  //   });
-  // });
-  //
-  // describe('remove()', () => {
-  //   it ('should remove the given key from storage', () => {
-  //     const constants = new Constants({
-  //       meep: 'meep',
-  //     });
-  //     constants.remove('meep');
-  //     expect(constants.get('meep')).toBeUndefined();
-  //   });
-  // });
+  describe('defaults()', () => {
+    it ('should return all default values', () => {
+      const vals = {
+        widow: 'tracer',
+        phar: 'mercy',
+        torb: 'no one'
+      };
+      const constants = new Constants(vals);
+      expect(constants.defaults()).toEqual(constants._defaults);
+      expect(constants.defaults()).toEqual(vals);
+    });
+  });
+
+  describe('default()', () => {
+    it ('should return the default value for the requested key', () => {
+      const constants = new Constants({
+        Stalin: '+',
+        Mao: '+',
+        Che: '+',
+        Lenin: '+',
+        Trotsky: '-',
+        Rosa: '+'
+      });
+      constants.set('Mao', '++');
+      expect(constants.default('Mao')).toEqual('+');
+    });
+  });
+
+  describe('reset()', () => {
+    it ('should reset all values if no key is passed', () => {
+      const constants = new Constants({
+        chill: 'bro',
+        no: 'wai'
+      });
+      constants.set('chill', 'dude');
+      constants.set('no', 'u');
+      constants.reset();
+      expect(constants.get('chill')).toEqual('bro');
+      expect(constants.get('no')).toEqual('wai');
+    });
+
+    it ('should reset the value of the key passed', () => {
+      const constants = new Constants({
+        chill: 'bro',
+        no: 'wai'
+      });
+      constants.set('chill', 'dude');
+      constants.set('no', 'u');
+      constants.reset('chill');
+      constants.reset('no');
+      expect(constants.get('chill')).toEqual('bro');
+      expect(constants.get('no')).toEqual('wai');
+    });
+  });
+
+  describe('clear()', () => {
+    it ('should remove all managed values from local storage', () => {
+      const constants = new Constants({
+        balls: 'wtf',
+        derp: 'herp'
+      });
+      constants.clear();
+      expect(constants.get('balls')).toBeUndefined();
+      expect(constants.get('derp')).toBeUndefined();
+    });
+  });
+
+  describe('remove()', () => {
+    it ('should remove the given key from storage', () => {
+      const constants = new Constants({
+        meep: 'meep',
+      });
+      constants.remove('meep');
+      expect(constants.get('meep')).toBeUndefined();
+    });
+  });
 });
 
 if (Utils.isNode()) {
