@@ -20,6 +20,11 @@ module.exports = {
   },
   module: {
     noParse: /node_modules\/json-schema\/lib\/validate\.js/,
+    preLoaders: [{
+      test: /\.json$/,
+      loader: 'json-loader',
+      exclude: /node_modules/
+    }],
     loaders: [{
       test: /\.js$/,
       loader: 'babel?cacheDirectory',

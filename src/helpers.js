@@ -90,10 +90,7 @@ export const isBoolean = test => {
 }
 
 export const isNull = test => {
-  if (test === null) {
-    return true;
-  }
-  if (test.match(/null/)) {
+  if (String(test) === 'null') {
     return true;
   }
   return false;
@@ -111,4 +108,14 @@ export const isObject = test => {
   } catch (err) {
     return false;
   }
+}
+
+export const merge = (source, target) => {
+  const newObj = Object.assign({}, source);
+  Object.keys(target).forEach(key => {
+    if (typeof target[key] !== 'undefined') {
+      newObj[key] = target[key];
+    }
+  });
+  return newObj;
 }

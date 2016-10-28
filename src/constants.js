@@ -4,6 +4,7 @@ import path from 'path';
 import mockChromeApiWithFileSystem from './filesystem';
 import mockChromeApiWithLocalStorage from './localStorage';
 import * as Utils from './helpers';
+import packageJson from '../package.json';
 import './polyfill';
 
 export default class Constants extends EventEmitter {
@@ -16,23 +17,26 @@ export default class Constants extends EventEmitter {
   _env = null;
   _initialized = false;
 
+  static VERSION = packageJson.version;
+
   constructor(options) {
     super();
-    Object.assign(this._previous, options);
     Object.assign(this._defaults, options);
 
-    this.once('ready', () => {
-      for (const key in options) {
-        if (Utils.checkProperty(options, key)) {
-          if (!this.get(key)) {
-            this.set(key, options[key]);
-          }
-        }
-      }
+    this.once('initialized', () => {
+      this._storage.local.get(options, vals => {
+        
+        const opts = Utils.merge(options, vals);
+        this.set(opts);
+
+        Object.assign(this._previous, this._defaults);
+      });
     });
 
     this._detectContext(::this.initialize);
   }
+
+
 
   initialize() {
     this._initializeStorageValues(() => {
@@ -41,7 +45,7 @@ export default class Constants extends EventEmitter {
         return;
       }
       this._initialized = true;
-      this.emit('ready');
+      this.emit('initialized');
     });
   }
 
@@ -83,13 +87,13 @@ export default class Constants extends EventEmitter {
     return this._defaults;
   }
 
-  get(key) {
+  get(key) { // this should not call storage.get so it remains synchronous
     if (typeof key === 'object') {
       const response = {};
       const hash = key;
       for (const _key in hash) {
         if (Utils.checkProperty(hash, _key)) {
-          if (this[_key]) {
+          if (typeof this[_key] !== 'undefined') {
             response[_key] = this[_key];
           } else {
             response[_key] = hash[_key];

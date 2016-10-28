@@ -26,6 +26,10 @@ describe('Constants', () => {
     expect(constants).toBeDefined();
   });
 
+  it ('should have a version number', () => {
+    expect(Constants.VERSION).toEqual(require('../package.json').version);
+  });
+
   it ('should utilize the correct storage strategy depending on the environment', () => {
     const constants = new Constants({
       ohShit: 'whaddup'
@@ -84,21 +88,33 @@ describe('Constants', () => {
       expect(constants.get('object')).toEqual({ object: 'object' });
     });
 
-    it ('should persist stored types', () => {
+    it ('should persist stored types', done => {
+
+      expect(localStorage.getItem('null')).toEqual('`null');
+      expect(localStorage.getItem('number')).toEqual('10');
+      expect(localStorage.getItem('truth')).toEqual('false');
+      expect(localStorage.getItem('object')).toEqual(JSON.stringify({ object: 'object' }));
+
       const vals = {
-        truth: false,
-        number: 10,
-        null: null,
-        object: {
-          object: 'object'
-        }
+        truth: '',
+        number: '',
+        null: '',
+        object: {}
       };
       const constants = new Constants(vals);
-      expect(constants.get('truth')).toBe(false);
-      expect(constants.get('number')).toEqual(10);
-      expect(constants.get('null')).toEqual(null);
-      expect(constants.get('object')).toEqual({ object: 'object' });
-    })
+
+      setTimeout(() => {
+        expect(constants.get(vals)).toEqual({
+          truth: false,
+          number: 10,
+          null: null,
+          object: {
+            object: 'object'
+          }
+        });
+        done();
+      }, 0);
+    });
 
     it ('should allow new instances of "Constants" to access stored items', () => {
       const vals = {

@@ -3,14 +3,27 @@ import * as Utils from './helpers';
 const marshalType = item => {
   if (Utils.isNumeric(item)) {
     item = parseFloat(item);
-  } else if (Utils.isNull(item)) {
+  } else if (item === '`null') { // it was intentionally stored
+    return 'null';
+  } else if (Utils.isNull(item)) { // default localStorage behavior
     item = null;
   } else if (Utils.isBoolean(item)) {
-    item = Utils.convertBool(item);
+    item = item; // marshal later
   } else if (Utils.isObject(item)) {
     item = JSON.parse(item);
   }
   return item;
+}
+
+const marshalFalsey = item => {
+  if (Utils.isString(item)) {
+    if (Utils.isBoolean(item)) {
+      return Utils.convertBool(item);
+    } else if (Utils.isNull(item)) {
+      return null;
+    }
+  }
+  return item; // it has to be undefined
 }
 
 const mockChromeApiWithLocalStorage = constants => {
@@ -24,13 +37,14 @@ const mockChromeApiWithLocalStorage = constants => {
         const hash = key;
         const response = {};
         for (const _key in hash) {
-          const item = marshalType(localStorage.getItem(_key));
-          response[_key] = item;
+          const item = marshalType(localStorage.getItem(_key)) || undefined;
+          response[_key] = marshalFalsey(item);
         }
         return callback(response);
       } else if (typeof key === 'string') {
         const response = {};
-        response[key] = marshalType(localStorage.getItem(key));
+        response[key] = marshalType(localStorage.getItem(key)) || undefined;
+        response[key] = marshalFalsey(response[key]);
         return callback(response);
       }
     },
@@ -40,7 +54,9 @@ const mockChromeApiWithLocalStorage = constants => {
       } else {
         for (const key in items) {
           if (Utils.checkProperty(items, key)) {
-            if (typeof items[key] === 'object') {
+            if (Utils.isNull(items[key])) {
+             localStorage.setItem(key, '`null');
+            } else if (typeof items[key] === 'object') {
               localStorage.setItem(key, JSON.stringify(items[key]));
             } else {
               localStorage.setItem(key, items[key]);
