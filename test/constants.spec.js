@@ -2,6 +2,8 @@ import fs from 'fs';
 import Constants from '../src/constants';
 import * as Utils from '../src/helpers';
 
+localStorage.clear();
+
 let jasmine = jasmine || {};
 
 if (Utils.isNode()) {
@@ -70,13 +72,33 @@ describe('Constants', () => {
       const vals = {
         truth: false,
         number: 10,
-        null: null
+        null: null,
+        object: {
+          object: 'object'
+        }
       };
       const constants = new Constants(vals);
       expect(constants.get('truth')).toBe(false);
       expect(constants.get('number')).toEqual(10);
       expect(constants.get('null')).toEqual(null);
+      expect(constants.get('object')).toEqual({ object: 'object' });
     });
+
+    it ('should persist stored types', () => {
+      const vals = {
+        truth: false,
+        number: 10,
+        null: null,
+        object: {
+          object: 'object'
+        }
+      };
+      const constants = new Constants(vals);
+      expect(constants.get('truth')).toBe(false);
+      expect(constants.get('number')).toEqual(10);
+      expect(constants.get('null')).toEqual(null);
+      expect(constants.get('object')).toEqual({ object: 'object' });
+    })
 
     it ('should allow new instances of "Constants" to access stored items', () => {
       const vals = {

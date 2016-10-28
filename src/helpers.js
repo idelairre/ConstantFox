@@ -98,3 +98,17 @@ export const isNull = test => {
   }
   return false;
 }
+
+export const isString = test => {
+  return typeof test === 'string';
+}
+
+export const isObject = test => {
+  try {
+    if (JSON.parse(test)) {
+      return true;
+    }
+  } catch (err) {
+    return false;
+  }
+}

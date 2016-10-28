@@ -7,6 +7,8 @@ const marshalType = item => {
     item = null;
   } else if (Utils.isBoolean(item)) {
     item = Utils.convertBool(item);
+  } else if (Utils.isObject(item)) {
+    item = JSON.parse(item);
   }
   return item;
 }
@@ -38,7 +40,11 @@ const mockChromeApiWithLocalStorage = constants => {
       } else {
         for (const key in items) {
           if (Utils.checkProperty(items, key)) {
-            localStorage.setItem(key, items[key]);
+            if (typeof items[key] === 'object') {
+              localStorage.setItem(key, JSON.stringify(items[key]));
+            } else {
+              localStorage.setItem(key, items[key]);
+            }
           }
         }
         if (callback) {
