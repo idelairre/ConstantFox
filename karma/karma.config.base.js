@@ -9,11 +9,13 @@ module.exports = {
   colors: true,
   frameworks: ['jasmine'],
   browsers: ['Chrome', 'Firefox', 'PhantomJS'],
-  files: ['./test/constants.spec.js'],
+  files: ['./test/index.js'],
+  exclude: ['filesystem.spec.js'],
   preprocessors: {
-    './test/constants.spec.js': ['webpack']
+    './test/index.js': ['webpack']
   },
   webpack: {
+    devtool: 'cheap-module-source-map',
     module: {
       noParse: /node_modules\/json-schema\/lib\/validate\.js/,
       loaders: [{

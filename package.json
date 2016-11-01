@@ -1,6 +1,6 @@
 {
   "name": "constant-fox",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "lib/constant-fox.min.js",
   "files": [
@@ -50,7 +50,7 @@
     "karma-jasmine": "^0.3.8",
     "karma-phantomjs-launcher": "latest",
     "karma-teamcity-reporter": "latest",
-    "karma-webpack": "^1.7.0",
+    "karma-webpack-with-fast-source-maps": "^1.10.0",
     "phantomjs": "^2.1.3",
     "rimraf": "^2.3.4",
     "webpack": "^1.12.13"

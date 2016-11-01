@@ -1,9 +1,13 @@
 import fs from 'fs';
-import Jasmine from 'jasmine';
 import mockChromeApiWithFileSystem from '../src/filesystem';
 import * as Utils from '../src/helpers';
 
-jasmine = new Jasmine();
+let jasmine = jasmine || {};
+
+if (Utils.isNode()) {
+  const Jasmine = require('jasmine');
+  jasmine = new Jasmine();
+}
 
 const constants = {
   _defaults: {
@@ -38,4 +42,6 @@ describe('mockChromeApiWithFileSystem', () => {
   });
 });
 
-jasmine.execute();
+if (Utils.isNode()) {
+  jasmine.execute();
+}

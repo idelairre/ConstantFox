@@ -21,22 +21,18 @@ export default class Constants extends EventEmitter {
 
   constructor(options) {
     super();
+
     Object.assign(this._defaults, options);
 
     this.once('initialized', () => {
       this._storage.local.get(options, vals => {
-        
-        const opts = Utils.merge(options, vals);
-        this.set(opts);
-
+        this.set(Utils.merge(options, vals));
         Object.assign(this._previous, this._defaults);
       });
     });
 
     this._detectContext(::this.initialize);
   }
-
-
 
   initialize() {
     this._initializeStorageValues(() => {
@@ -47,6 +43,10 @@ export default class Constants extends EventEmitter {
       this._initialized = true;
       this.emit('initialized');
     });
+  }
+
+  initialized() {
+    return this._initialized;
   }
 
   getEnv() {
