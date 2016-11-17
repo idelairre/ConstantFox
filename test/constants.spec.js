@@ -2,13 +2,13 @@ import fs from 'fs';
 import Constants from '../src/constants';
 import * as Utils from '../src/helpers';
 
-localStorage.clear();
-
 let jasmine = jasmine || {};
 
 if (Utils.isNode()) {
   const Jasmine = require('jasmine');
   jasmine = new Jasmine();
+} else {
+  localStorage.clear();
 }
 
 describe('Constants', () => {
@@ -89,11 +89,18 @@ describe('Constants', () => {
     });
 
     it ('should persist stored types', done => {
-
-      expect(localStorage.getItem('null')).toEqual('`null');
-      expect(localStorage.getItem('number')).toEqual('10');
-      expect(localStorage.getItem('truth')).toEqual('false');
-      expect(localStorage.getItem('object')).toEqual(JSON.stringify({ object: 'object' }));
+      if (Utils.isBrowser()) {
+        expect(localStorage.getItem('null')).toEqual('`null');
+        expect(localStorage.getItem('number')).toEqual('10');
+        expect(localStorage.getItem('truth')).toEqual('false');
+        expect(localStorage.getItem('object')).toEqual(JSON.stringify({ object: 'object' }));
+      } else {
+        const constants = Utils.read('./constants.json');
+        expect(constants.null).toEqual('`null');
+        expect(constants.number).toEqual('10');
+        expect(constants.truth).toEqual('false');
+        expect(constants.object).toEqual(JSON.stringify({ object: 'object' }));
+      }
 
       const vals = {
         truth: '',
@@ -187,6 +194,14 @@ describe('Constants', () => {
       constants.reset('no');
       expect(constants.get('chill')).toEqual('bro');
       expect(constants.get('no')).toEqual('wai');
+    });
+
+    it ('should emit a reset event', () => {
+      const constants = new Constants();
+      spyOn(Constants.prototype, 'emit').and.callThrough();
+      constants.reset();
+      expect(Constants.prototype.emit).toHaveBeenCalled();
+      expect(Constants.prototype.emit.calls.argsFor(0)).toEqual(['reset', new Object()]);
     });
   });
 

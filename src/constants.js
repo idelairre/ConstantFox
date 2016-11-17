@@ -107,7 +107,7 @@ export default class Constants extends EventEmitter {
     }
   }
 
-  set(key, value) {
+  set(key, value, reset) {
     if (typeof key === 'object') {
       this._assign(key);
       this._storage.local.set(key);
@@ -118,7 +118,11 @@ export default class Constants extends EventEmitter {
       storageSlug[key] = value;
       this._storage.local.set(storageSlug);
     }
-    this.emit('change', this.toJSON());
+    if (reset) {
+      this.emit('reset', this.toJSON());
+    } else {
+      this.emit('change', this.toJSON());
+    }
   }
 
   remove(key) {
@@ -134,10 +138,9 @@ export default class Constants extends EventEmitter {
 
   reset(key) {
     if (typeof key !== 'undefined') {
-      this.set(key, this._defaults[key]);
+      this.set(key, this._defaults[key], true);
     } else {
-      this.set(this._defaults);
-      this.initialize();
+      this.set(this._defaults, null, true);
     }
   }
 
