@@ -151,8 +151,8 @@ export default class Constants extends EventEmitter {
   }
 
   reset(key) {
-    if (typeof key !== 'undefined') {
-      this.set(key, this._defaults[key], true);
+    if (typeof key === 'string') {
+      this.set(key, this._defaults[key], { reset: true });
     } else {
       this.set(this._defaults, null, { reset: true });
     }

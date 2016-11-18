@@ -1,13 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 
-export const isBrowser = new Function("try {return !!window;}catch(e){ return false;}");
+export const isBrowser = new Function("try {return !!window;}catch(e){return false;}");
 
 export const isChrome = new Function("try {return ('chrome' in window);}catch(e){return false;}");
 
 export const isNode = new Function("try {return process.title;}catch(e){return false;}");
 
-export const storageEnabled = new Function("return (typeof chrome.storage !== 'undefined')");
+export const storageEnabled = new Function("try {return chrome.storage;}catch(e){return false;})");
 
 export const isChromeExtension = () => isBrowser() && isChrome() && storageEnabled();
 
