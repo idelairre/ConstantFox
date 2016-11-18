@@ -7,7 +7,7 @@ export const isChrome = new Function("try {return ('chrome' in window);}catch(e)
 
 export const isNode = new Function("try {return process.title;}catch(e){return false;}");
 
-export const storageEnabled = new Function("try {return chrome.storage;}catch(e){return false;})");
+export const storageEnabled = new Function("try {return chrome.storage;}catch(e){return false;}");
 
 export const isChromeExtension = () => isBrowser() && isChrome() && storageEnabled();
 
