@@ -30,6 +30,11 @@ describe('Constants', () => {
     expect(Constants.VERSION).toEqual(require('../package.json').version);
   });
 
+  it ('should allow the user to listen to global initialization events from static methods', done => {
+    Constants.once('ready', done);
+    new Constants({ lol: 'lol' });
+  });
+
   it ('should utilize the correct storage strategy depending on the environment', () => {
     const constants = new Constants({
       ohShit: 'whaddup'

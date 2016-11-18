@@ -53,14 +53,12 @@ const mockChromeApiWithLocalStorage = constants => {
         throw new Error('"storage.set" expects an object');
       } else {
         for (const key in items) {
-          if (Utils.checkProperty(items, key)) {
-            if (Utils.isNull(items[key])) {
-             localStorage.setItem(key, '`null');
-            } else if (typeof items[key] === 'object') {
-              localStorage.setItem(key, JSON.stringify(items[key]));
-            } else {
-              localStorage.setItem(key, items[key]);
-            }
+          if (Utils.isNull(items[key])) {
+           localStorage.setItem(key, '`null');
+          } else if (typeof items[key] === 'object') {
+            localStorage.setItem(key, JSON.stringify(items[key]));
+          } else {
+            localStorage.setItem(key, items[key]);
           }
         }
         if (callback) {

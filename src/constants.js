@@ -26,8 +26,9 @@ export default class Constants extends EventEmitter {
 
     this.once('initialized', () => {
       this._storage.local.get(options, vals => {
-        this.set(Utils.merge(options, vals));
+        this.set(Utils.merge(options, vals), null, { init: true });
         Object.assign(this._previous, this._defaults);
+        this.emit('ready');
       });
     });
 
@@ -47,6 +48,18 @@ export default class Constants extends EventEmitter {
 
   initialized() {
     return this._initialized;
+  }
+
+  static once() {
+    return Constants.prototype.once.apply(Constants.prototype, arguments);
+  }
+
+  static on() {
+    return Constants.prototype.on.apply(Constants.prototype, arguments);
+  }
+
+  static addListener() {
+    return Constants.prototype.addListener.apply(Constants.prototype, arguments);
   }
 
   getEnv() {
@@ -91,14 +104,13 @@ export default class Constants extends EventEmitter {
     if (typeof key === 'object') {
       const response = {};
       const hash = key;
-      for (const _key in hash) {
-        if (Utils.checkProperty(hash, _key)) {
-          if (typeof this[_key] !== 'undefined') {
-            response[_key] = this[_key];
-          } else {
-            response[_key] = hash[_key];
-            this.set(_key, hash[_key]);
-          }
+      const keys = Object.keys(hash);
+      for (let i = keys.length - 1; i >= 0; i--) {
+        if (typeof this[keys[i]] !== 'undefined') {
+          response[keys[i]] = this[keys[i]];
+        } else {
+          response[keys[i]] = hash[keys[i]];
+          this.set(keys[i], hash[keys[i]]);
         }
       }
       return response;
@@ -107,7 +119,7 @@ export default class Constants extends EventEmitter {
     }
   }
 
-  set(key, value, reset) {
+  set(key, value, { init = false, silent = false, reset = false } = {}) {
     if (typeof key === 'object') {
       this._assign(key);
       this._storage.local.set(key);
@@ -120,6 +132,8 @@ export default class Constants extends EventEmitter {
     }
     if (reset) {
       this.emit('reset', this.toJSON());
+    } else if (silent) {
+      Function.prototype();
     } else {
       this.emit('change', this.toJSON());
     }
@@ -140,27 +154,27 @@ export default class Constants extends EventEmitter {
     if (typeof key !== 'undefined') {
       this.set(key, this._defaults[key], true);
     } else {
-      this.set(this._defaults, null, true);
+      this.set(this._defaults, null, { reset: true });
     }
   }
 
   toJSON() {
     const vals = {};
-    Object.keys(this._defaults).forEach(key => {
-      vals[key] = this[key];
-    });
+    const keys = Object.keys(this._defaults);
+    for (let i = keys.length - 1; i >= 0; i--) {
+      vals[keys[i]] = this[keys[i]];
+    }
     return Object.assign({}, vals);
   }
 
   _assign(items) {
-    for (const key in items) {
-      if (Utils.checkProperty(items, key)) {
-        if (typeof this[key] === 'undefined') {
-          this._previous[key] = undefined;
-        } else {
-          this._previous[key] = this[key];
-        }
-        this[key] = items[key];
+    const keys = Object.keys(items);
+    for (let i = keys.length - 1; i >= 0; i--) {
+      this[keys[i]] = items[keys[i]];
+      if (typeof this[keys[i]] === 'undefined') {
+        this._previous[keys[i]] = undefined;
+      } else {
+        this._previous[keys[i]] = this[keys[i]];
       }
     }
   }

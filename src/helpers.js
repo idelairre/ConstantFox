@@ -112,10 +112,11 @@ export const isObject = test => {
 
 export const merge = (source, target) => {
   const newObj = Object.assign({}, source);
-  Object.keys(target).forEach(key => {
-    if (typeof target[key] !== 'undefined') {
-      newObj[key] = target[key];
+  const keys = Object.keys(target)
+  for (let i = keys.length - 1; i >= 0; i--) {
+    if (typeof target[keys[i]] !== 'undefined') {
+      newObj[keys[i]] = target[keys[i]];
     }
-  });
+  }
   return newObj;
 }
