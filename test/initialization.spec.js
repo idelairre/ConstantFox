@@ -42,7 +42,7 @@ describe('Constants', () => {
 
     it ('should make values available on ready', done => {
       let test;
-      Constants.once('ready', () => {
+      Constants.prototype.once('ready', () => {
         if (test) {
           expect(test.get('nextLikeSourceSlug')).toEqual(testVals);
           done();

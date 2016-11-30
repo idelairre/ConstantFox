@@ -6,6 +6,8 @@ import packageJson from '../package.json';
 import './polyfill';
 
 export default class Constants extends EventEmitter {
+  _attributes = {};
+  _changing = false;
   _previous = {};
   _defaults = {};
   _changed = {};
@@ -13,6 +15,7 @@ export default class Constants extends EventEmitter {
     local: {},
     sync: {}
   };
+  _keys;
   _env = null;
   _initialized = false;
 
@@ -22,17 +25,17 @@ export default class Constants extends EventEmitter {
     super();
 
     if (typeof options === 'object') {
-      Object.keys(options).forEach(key => {
-        this._defaults[key] = options[key];
-        this._previous[key] = options[key];
-      });
+      const keys = Object.keys(options);
+      for (let i = keys.length - 1; i >= 0; i--) {
+        this._defaults[keys[i]] = options[keys[i]];
+      }
+      this._keys = keys;
     }
-
-    // Object.assign(this._defaults, options);
 
     this.once('initialized', () => {
       this._storage.local.get(options, vals => {
-        this.set(Utils.merge(options, vals), null, { init: true });
+        const initVals = this.set(Utils.merge(options, vals), null, { init: true });
+        Object.assign(this._attributes, initVals);
         Object.assign(this._previous, this._defaults);
         this.emit('ready');
       });
@@ -54,22 +57,6 @@ export default class Constants extends EventEmitter {
 
   initialized() {
     return this._initialized;
-  }
-
-  static once() {
-    return Constants.prototype.once.apply(Constants.prototype, arguments);
-  }
-
-  static on() {
-    return Constants.prototype.on.apply(Constants.prototype, arguments);
-  }
-
-  static addListener() {
-    return Constants.prototype.addListener.apply(Constants.prototype, arguments);
-  }
-
-  static removeListener() {
-    return Constants.prototype.removeListener.apply(Constants.prototype, arguments);
   }
 
   getEnv() {
@@ -98,7 +85,7 @@ export default class Constants extends EventEmitter {
     if (!diff) {
       return this.hasChanged() ? Utils.clone(this._changed) : false;
     }
-    const old = this._previous;
+    const old = this.changing ? this._previous : this._attributes;
     const changed = {};
     let hasChanged;
     for (const attr in diff) {
@@ -162,9 +149,16 @@ export default class Constants extends EventEmitter {
       attrs[key] = value;
     }
 
-    this._changed = {};
+    let changing = this._changing;
+    this._changing = true;
+
+    if (!changing) {
+      this.changed = {};
+    }
 
     this._assign(attrs, init);
+
+    this._changing = false;
     this._storage.local.set(attrs);
 
     if (reset) {
@@ -216,6 +210,7 @@ export default class Constants extends EventEmitter {
       }
 
       this[keys[i]] = items[keys[i]];
+      this._attributes = items[keys[i]];
 
       if (this._previous[keys[i]] === this[keys[i]]) {
         delete this._changed[keys[i]];

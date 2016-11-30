@@ -31,10 +31,10 @@ describe('Constants', () => {
     expect(Constants.VERSION).toEqual(require('../package.json').version);
   });
 
-  it ('should allow the user to listen to global initialization events from static methods', done => {
-    Constants.once('ready', done);
-    new Constants({ lol: 'lol' });
-  });
+  // it ('should allow the user to listen to global initialization events from static methods', done => {
+  //   Constants.once('ready', done);
+  //   new Constants({ lol: 'lol' });
+  // });
 
   it ('should utilize the correct storage strategy depending on the environment', () => {
     const constants = new Constants({
@@ -151,6 +151,23 @@ describe('Constants', () => {
         done();
       });
       constants.set('a', 2);
+    });
+
+    it ('should maintain the changed hash after multiple updates', done => {
+      const constants = new Constants({ a: 0 });
+
+      const interval = setInterval(() => {
+        constants.set('a', constants.get('a') + 1);
+      }, 0);
+
+      constants.on('change', () => {
+        if (constants.get('a') === 5) {
+          expect(Utils.checkProperty(constants.changedAttributes(), 'a')).toBe(true);
+          clearInterval(interval);
+          constants.off('change');
+          done();
+        }
+      });
     });
   });
 
