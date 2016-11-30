@@ -7,6 +7,7 @@ let jasmine = jasmine || {};
 if (Utils.isNode()) {
   const Jasmine = require('jasmine');
   jasmine = new Jasmine();
+  Utils.clear('./constants.json');
 } else {
   localStorage.clear();
 }
@@ -99,12 +100,6 @@ describe('Constants', () => {
         expect(localStorage.getItem('number')).toEqual('10');
         expect(localStorage.getItem('truth')).toEqual('false');
         expect(localStorage.getItem('object')).toEqual(JSON.stringify({ object: 'object' }));
-      } else {
-        const constants = Utils.read('./constants.json');
-        expect(constants.null).toEqual('`null');
-        expect(constants.number).toEqual('10');
-        expect(constants.truth).toEqual('false');
-        expect(constants.object).toEqual(JSON.stringify({ object: 'object' }));
       }
 
       const vals = {
@@ -113,6 +108,7 @@ describe('Constants', () => {
         null: '',
         object: {}
       };
+
       const constants = new Constants(vals);
 
       setTimeout(() => {
@@ -147,6 +143,17 @@ describe('Constants', () => {
     });
   });
 
+  describe('changedAttributes()', () => {
+    it ('should correctly update changed properties', done => {
+      const constants = new Constants({ a: 1 });
+      constants.once('change', () => {
+        expect(Utils.checkProperty(constants.changedAttributes(), 'a')).toBe(true);
+        done();
+      });
+      constants.set('a', 2);
+    });
+  });
+
   describe('defaults()', () => {
     it ('should return all default values', () => {
       const vals = {
@@ -156,7 +163,9 @@ describe('Constants', () => {
       };
       const constants = new Constants(vals);
       expect(constants.defaults()).toEqual(constants._defaults);
-      expect(constants.defaults()).toEqual(vals);
+      expect(constants.defaults().widow).toEqual('tracer');
+      expect(constants.defaults().phar).toEqual('mercy');
+      expect(constants.defaults().torb).toEqual('no one');
     });
   });
 
@@ -206,7 +215,7 @@ describe('Constants', () => {
       spyOn(Constants.prototype, 'emit').and.callThrough();
       constants.reset();
       expect(Constants.prototype.emit).toHaveBeenCalled();
-      expect(Constants.prototype.emit.calls.argsFor(0)).toEqual(['reset', new Object()]);
+      expect(Constants.prototype.emit.calls.argsFor(0)).toEqual(['reset', constants.toJSON()]);
     });
   });
 

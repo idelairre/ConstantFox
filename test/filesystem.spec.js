@@ -7,6 +7,7 @@ let jasmine = jasmine || {};
 if (Utils.isNode()) {
   const Jasmine = require('jasmine');
   jasmine = new Jasmine();
+  Utils.clear('./constants.json');
 }
 
 const constants = {

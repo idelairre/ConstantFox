@@ -3,12 +3,6 @@ import * as Utils from './helpers';
 const mockChromeApiWithFileSystem = constants => {
   if (!Utils.access('./constants.json')) {
     Utils.write('./constants.json', constants._defaults);
-  } else {
-    const vals = Utils.read('./constants.json');
-    if (!Utils.isEqual(constants._defaults, vals)) {
-      Object.assign(constants._defaults, vals);
-      Utils.write('./constants.json', constants._defaults);
-    }
   }
   const storage = {};
   const storageApi = {
@@ -16,28 +10,18 @@ const mockChromeApiWithFileSystem = constants => {
       if (typeof callback !== 'function') {
         throw new Error('"storage.get" expects a callback');
       }
-      if (typeof key === 'object') {
-        const hash = key;
-        const response = {};
-        for (const _key in hash) {
-          const value = Utils.read('./constants.json')[_key];
-          if (value) {
-            constants[_key] = value;
-            response[_key] = value;
-          } else {
-            constants[_key] = hash[_key];
-            response[_key] = constants[_key];
-          }
-        }
-        return callback(response);
-      } else if (typeof key === 'string') {
-        const response = {};
-        const item = Utils.read('./constants.json')[key];
-        if (item) {
-          response[key] = item;
-        }
-        return callback(response);
+      let attrs = {};
+      const response = {};
+      if (typeof key === 'string') {
+        attrs[key] = '';
+      } else if (typeof key === 'object') {
+        attrs = key;
       }
+      for (const attr in attrs) {
+        const item = Utils.marshalType(Utils.read('./constants.json')[attr]) || undefined;
+        response[attr] = Utils.marshalFalsey(item);
+      }
+      return callback(response);
     },
     set(items, callback) {
       if (typeof items !== 'object') {
@@ -45,7 +29,13 @@ const mockChromeApiWithFileSystem = constants => {
       }
       const saved = Utils.read('./constants.json');
       for (const key in items) {
-        if (Utils.checkProperty(items, key)) {
+        if (Utils.isNull(items[key])) {
+          saved[key] = '`null';
+        } else if (Utils.isBoolean(items[key])) {
+          saved[key] = items[key].toString();
+        } else if (typeof items[key] === 'object') {
+          saved[key] = JSON.stringify(items[key]);
+        } else {
           saved[key] = items[key];
         }
       }
@@ -66,10 +56,10 @@ const mockChromeApiWithFileSystem = constants => {
       } else if (typeof key === 'object') {
         const items = key;
         const saved = Utils.read('./constants.json');
-        for (const _key in items) {
-          if (Utils.checkProperty(constants, _key)) {
-            delete saved[_key];
-            delete constants[_key];
+        for (const attr in items) {
+          if (Utils.checkProperty(constants, attr)) {
+            delete saved[attr];
+            delete constants[attr];
           }
         }
         Utils.write('./constants.json', constants);

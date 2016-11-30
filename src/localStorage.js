@@ -1,31 +1,5 @@
 import * as Utils from './helpers';
 
-const marshalType = item => {
-  if (Utils.isNumeric(item)) {
-    item = parseFloat(item);
-  } else if (item === '`null') { // it was intentionally stored
-    return 'null';
-  } else if (Utils.isNull(item)) { // default localStorage behavior
-    item = null;
-  } else if (Utils.isBoolean(item)) {
-    item = item; // marshal later
-  } else if (Utils.isObject(item)) {
-    item = JSON.parse(item);
-  }
-  return item;
-}
-
-const marshalFalsey = item => {
-  if (Utils.isString(item)) {
-    if (Utils.isBoolean(item)) {
-      return Utils.convertBool(item);
-    } else if (Utils.isNull(item)) {
-      return null;
-    }
-  }
-  return item; // it has to be undefined
-}
-
 const mockChromeApiWithLocalStorage = constants => {
   const storage = {};
   const storageApi = {
@@ -33,20 +7,18 @@ const mockChromeApiWithLocalStorage = constants => {
       if (typeof callback !== 'function') {
         throw new Error('"storage.get" expects a callback');
       }
-      if (typeof key === 'object') {
-        const hash = key;
-        const response = {};
-        for (const _key in hash) {
-          const item = marshalType(localStorage.getItem(_key)) || undefined;
-          response[_key] = marshalFalsey(item);
-        }
-        return callback(response);
-      } else if (typeof key === 'string') {
-        const response = {};
-        response[key] = marshalType(localStorage.getItem(key)) || undefined;
-        response[key] = marshalFalsey(response[key]);
-        return callback(response);
+      let attrs = {};
+      const response = {};
+      if (typeof key === 'string') {
+        attrs[key] = '';
+      } else if (typeof key === 'object') {
+        attrs = key;
       }
+      for (const attr in attrs) {
+        const item = Utils.marshalType(localStorage.getItem(attr)) || undefined;
+        response[attr] = Utils.marshalFalsey(item);
+      }
+      return callback(response);
     },
     set(items, callback) {
       if (typeof items !== 'object') {
@@ -75,9 +47,9 @@ const mockChromeApiWithLocalStorage = constants => {
         }
       } else if (typeof key === 'object') {
         const items = key;
-        for (const _key in items) {
-          localStorage.removeItem(_key);
-          delete constants[_key];
+        for (const attr in items) {
+          localStorage.removeItem(attr);
+          delete constants[attr];
         }
         if (callback) {
           callback();

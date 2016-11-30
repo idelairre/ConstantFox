@@ -1,6 +1,4 @@
 import EventEmitter from 'eventemitter3';
-import fs from 'fs';
-import path from 'path';
 import mockChromeApiWithFileSystem from './filesystem';
 import mockChromeApiWithLocalStorage from './localStorage';
 import * as Utils from './helpers';
@@ -10,6 +8,7 @@ import './polyfill';
 export default class Constants extends EventEmitter {
   _previous = {};
   _defaults = {};
+  _changed = {};
   _storage = {
     local: {},
     sync: {}
@@ -19,10 +18,17 @@ export default class Constants extends EventEmitter {
 
   static VERSION = packageJson.version;
 
-  constructor(options) {
+  constructor(options = {}) {
     super();
 
-    Object.assign(this._defaults, options);
+    if (typeof options === 'object') {
+      Object.keys(options).forEach(key => {
+        this._defaults[key] = options[key];
+        this._previous[key] = options[key];
+      });
+    }
+
+    // Object.assign(this._defaults, options);
 
     this.once('initialized', () => {
       this._storage.local.get(options, vals => {
@@ -62,20 +68,24 @@ export default class Constants extends EventEmitter {
     return Constants.prototype.addListener.apply(Constants.prototype, arguments);
   }
 
+  static removeListener() {
+    return Constants.prototype.removeListener.apply(Constants.prototype, arguments);
+  }
+
   getEnv() {
     return this._env;
   }
 
   _detectContext(callback) { // TODO: add a delete or clear function so that storage can be reset
-    if (Utils.isNode()) {
-      this._storage = mockChromeApiWithFileSystem(this);
-      this._env = 'node';
-    } else if (Utils.isChromeExtension()) {
+    if (Utils.isChromeExtension()) {
       this._storage.local = chrome.storage.local;
       this._env = 'chrome';
     } else if (Utils.isBrowser()) {
       this._storage = mockChromeApiWithLocalStorage(this);
       this._env = 'browser';
+    } else if (Utils.isNode()) {
+      this._storage = mockChromeApiWithFileSystem(this);
+      this._env = 'node';
     } else {
       throw new Error('Cannot detect JavaScript context');
     }
@@ -84,8 +94,33 @@ export default class Constants extends EventEmitter {
     }
   }
 
+  changedAttributes(diff) {
+    if (!diff) {
+      return this.hasChanged() ? Utils.clone(this._changed) : false;
+    }
+    const old = this._previous;
+    const changed = {};
+    let hasChanged;
+    for (const attr in diff) {
+      const val = diff[attr];
+      if (Utils.isEqual(old[attr], val)) {
+        continue;
+      }
+      changed[attr] = val;
+      hasChanged = true;
+    }
+    return hasChanged ? changed : false;
+  }
+
   clear() {
     this._storage.local.clear();
+  }
+
+  hasChanged(attr) {
+    if (!attr) {
+      return !Utils.isEmpty(this._changed);
+    }
+    return Utils.checkProperty(this._changed, attr);
   }
 
   default(key) {
@@ -120,16 +155,18 @@ export default class Constants extends EventEmitter {
   }
 
   set(key, value, { init = false, silent = false, reset = false } = {}) {
+    let attrs = {};
     if (typeof key === 'object') {
-      this._assign(key);
-      this._storage.local.set(key);
+      attrs = key;
     } else {
-      this._previous[key] = this[key];
-      this[key] = value;
-      const storageSlug = {}; // NOTE: you need to use this pattern in order to programmatically set chrome storage key value pairs
-      storageSlug[key] = value;
-      this._storage.local.set(storageSlug);
+      attrs[key] = value;
     }
+
+    this._changed = {};
+
+    this._assign(attrs, init);
+    this._storage.local.set(attrs);
+
     if (reset) {
       this.emit('reset', this.toJSON());
     } else if (silent) {
@@ -167,14 +204,23 @@ export default class Constants extends EventEmitter {
     return Object.assign({}, vals);
   }
 
-  _assign(items) {
+  _assign(items, init) {
     const keys = Object.keys(items);
     for (let i = keys.length - 1; i >= 0; i--) {
+      if (!init) {
+        if (typeof this[keys[i]] === 'undefined') {
+          this._previous[keys[i]] = undefined;
+        } else {
+          this._previous[keys[i]] = this[keys[i]];
+        }
+      }
+
       this[keys[i]] = items[keys[i]];
-      if (typeof this[keys[i]] === 'undefined') {
-        this._previous[keys[i]] = undefined;
+
+      if (this._previous[keys[i]] === this[keys[i]]) {
+        delete this._changed[keys[i]];
       } else {
-        this._previous[keys[i]] = this[keys[i]];
+        this._changed[keys[i]] = items[keys[i]];
       }
     }
   }

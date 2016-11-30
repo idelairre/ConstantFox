@@ -3,11 +3,11 @@ import path from 'path';
 
 export const isBrowser = new Function("try {return !!window;}catch(e){return false;}");
 
-export const isChrome = new Function("try {return ('chrome' in window);}catch(e){return false;}");
+export const isChrome = new Function("try {return ('chrome' in window) || chrome;}catch(e){return false;}");
 
 export const isNode = new Function("try {return process.title;}catch(e){return false;}");
 
-export const storageEnabled = new Function("try {return chrome.storage;}catch(e){return false;}");
+export const storageEnabled = new Function("try {return !!chrome.storage;}catch(e){return false;}");
 
 export const isChromeExtension = () => isBrowser() && isChrome() && storageEnabled();
 
@@ -23,6 +23,14 @@ export const read = filename => {
   return JSON.parse(fs.readFileSync(path.join(process.cwd(), filename)));
 }
 
+export const clear = filename => {
+  write(filename, {});
+}
+
+export const clone = object => {
+  return Object.assign({}, object);
+}
+
 export const access = filename => {
   try {
     const file = path.join(process.cwd(), filename);
@@ -35,10 +43,15 @@ export const access = filename => {
 }
 
 export const convertBool = test => {
-  if (test.match(/false/)) {
+  if (typeof test !== 'string') {
+    test = test.toString();
+  }
+  if (test.match(/true/)) {
+    return true;
+  } else if (test.match(/false/)) {
     return false;
   } else {
-    return true;
+    throw new Error('object is not a boolean');
   }
 }
 
@@ -46,7 +59,7 @@ export const isEmpty = item => {
   if ((Array.isArray(item) || typeof item === 'string') && item.length === 0) {
     return true;
   }
-  if (typeof item === 'object' && Object.keys(items).length === 0) {
+  if (typeof item === 'object' && Object.keys(item).length === 0) {
     return true;
   }
   return false;
@@ -57,13 +70,15 @@ export const checkProperty = (object, property) => {
 }
 
 export const isEqual = (source, target) => {
+  const sourceKeys = Object.keys(source);
+  const targetKeys = Object.keys(target);
   if (source === target) {
     return true;
   }
-  if (Object.keys(source).length !== Object.keys(target).length) {
+  if (sourceKeys.length !== targetKeys.length) {
     return false;
   }
-  if (Object.keys(source) === Object.keys(target)) {
+  if (sourceKeys === targetKeys) {
     for (const key in source) {
       const item = source[key];
       const test = target[key];
@@ -80,11 +95,14 @@ export const isNumeric = n => {
 }
 
 export const isBoolean = test => {
-  if (test === (true || false)) {
+  if (typeof test === 'boolean') {
     return true;
-  }
-  if (test.match(/true/) || test.match(/false/)) {
-    return true;
+  } else {
+    if (typeof test === 'string') {
+      if (test.toString().match(/true/) || test.toString().match(/false/)) {
+        return true;
+      }
+    }
   }
   return false
 }
@@ -111,12 +129,43 @@ export const isObject = test => {
 }
 
 export const merge = (source, target) => {
+  if (!source) {
+    throw new Error('source is invalid');
+  } else if (!target) {
+    throw new Error('target is invalid');
+  }
   const newObj = Object.assign({}, source);
-  const keys = Object.keys(target)
+  const keys = Object.keys(target);
   for (let i = keys.length - 1; i >= 0; i--) {
     if (typeof target[keys[i]] !== 'undefined') {
       newObj[keys[i]] = target[keys[i]];
     }
   }
   return newObj;
+}
+
+export const marshalType = item => {
+  if (isNumeric(item)) {
+    item = parseFloat(item);
+  } else if (item === '`null') { // it was intentionally stored
+    return 'null';
+  } else if (isNull(item)) { // default localStorage behavior
+    item = null;
+  } else if (isBoolean(item)) {
+    item = item; // marshal later
+  } else if (isObject(item)) {
+    item = JSON.parse(item);
+  }
+  return item;
+}
+
+export const marshalFalsey = item => {
+  if (isString(item)) {
+    if (isBoolean(item)) {
+      return convertBool(item);
+    } else if (isNull(item)) {
+      return null;
+    }
+  }
+  return item; // it has to be undefined
 }
