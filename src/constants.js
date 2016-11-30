@@ -90,7 +90,7 @@ export default class Constants extends EventEmitter {
     let hasChanged;
     for (const attr in diff) {
       const val = diff[attr];
-      if (Utils.isEqual(old[attr], val)) {
+      if (old[attr] === val) {
         continue;
       }
       changed[attr] = val;
