@@ -1,6 +1,6 @@
 # ConstantsFox
 
-Utility for TumblrFox that synchronously accesses stored values using the chrome extension storage api. Emits change, initialization, and reset events. Automatically detects JS environment and adapts storage strategy.
+Utility for TumblrFox that synchronously accesses stored values. Automatically detects JS environment and adapts storage strategy. Emits change, initialization, and reset events.
 
 Functions very similarly to a Backbone model.
 

@@ -201,9 +201,6 @@ export default class Constants extends EventEmitter {
   }
 
   _assign(items, init) {
-
-    this._previous = this._attributes;
-
     const keys = Object.keys(items);
     for (let i = keys.length - 1; i >= 0; i--) {
       this[keys[i]] = items[keys[i]];
