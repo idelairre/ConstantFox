@@ -169,6 +169,16 @@ describe('Constants', () => {
         }
       });
     });
+
+    it ('changes hash should correctly remove old values', () => {
+      const vals = {
+        sombra: 'new',
+        anna: 'newish',
+        zarya: 'old'
+      };
+      const constants = new Constants(vals);
+      expect(constants.changedAttributes({ sombra: 'badass' })).toEqual({ sombra: 'badass' });
+    });
   });
 
   describe('defaults()', () => {

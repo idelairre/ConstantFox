@@ -15,7 +15,6 @@ export default class Constants extends EventEmitter {
     local: {},
     sync: {}
   };
-  _keys;
   _env = null;
   _initialized = false;
 
@@ -29,7 +28,6 @@ export default class Constants extends EventEmitter {
       for (let i = keys.length - 1; i >= 0; i--) {
         this._defaults[keys[i]] = options[keys[i]];
       }
-      this._keys = keys;
     }
 
     this.once('initialized', () => {
@@ -90,11 +88,10 @@ export default class Constants extends EventEmitter {
     let hasChanged;
     for (const attr in diff) {
       const val = diff[attr];
-      if (old[attr] === val) {
-        continue;
+      if (old[attr] !== val) {
+        changed[attr] = val;
+        hasChanged = true;
       }
-      changed[attr] = val;
-      hasChanged = true;
     }
     return hasChanged ? changed : false;
   }
@@ -182,6 +179,10 @@ export default class Constants extends EventEmitter {
     return this._previous[key];
   }
 
+  previousAttributes() {
+    return Utils.clone(this._previous);
+  }
+
   reset(key) {
     if (typeof key === 'string') {
       this.set(key, this._defaults[key], { reset: true });
@@ -200,23 +201,18 @@ export default class Constants extends EventEmitter {
   }
 
   _assign(items, init) {
+
+    this._previous = this._attributes;
+
     const keys = Object.keys(items);
     for (let i = keys.length - 1; i >= 0; i--) {
-      if (!init) {
-        if (typeof this[keys[i]] === 'undefined') {
-          this._previous[keys[i]] = undefined;
-        } else {
-          this._previous[keys[i]] = this[keys[i]];
-        }
-      }
-
       this[keys[i]] = items[keys[i]];
-      this._attributes = items[keys[i]];
+      this._attributes[keys[i]] = items[keys[i]];
 
-      if (this._previous[keys[i]] === this[keys[i]]) {
-        delete this._changed[keys[i]];
-      } else {
+      if (this._previous[keys[i]] !== this[keys[i]]) {
         this._changed[keys[i]] = items[keys[i]];
+      } else {
+        delete this._changed[keys[i]];
       }
     }
   }
