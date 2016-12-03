@@ -211,6 +211,30 @@ describe('Constants', () => {
     });
   });
 
+  describe('set()', () => {
+    it ('should correctly assign current values to the _previous hash', () => {
+      const oldVals = {
+        Castro: '+',
+        Hoxta: '+',
+        Sung: '+'
+      };
+
+      const newVals = {
+        Castro: '++',
+        Hoxta: '++',
+        Sung: '+'
+      };
+
+      const constants = new Constants(oldVals);
+      constants.set(newVals);
+      expect(constants.previousAttributes()).toEqual(oldVals);
+      expect(constants.changedAttributes()).toEqual({
+        Castro: '++',
+        Hoxta: '++'
+      });
+    });
+  });
+
   describe('reset()', () => {
     it ('should reset all values if no key is passed', () => {
       const constants = new Constants({

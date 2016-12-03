@@ -151,7 +151,7 @@ export default class Constants extends EventEmitter {
 
     if (!changing) {
       this._previous = Object.assign({}, this._attributes);
-      this.changed = {};
+      this._changed = {};
     }
 
     this._assign(attrs, init);
