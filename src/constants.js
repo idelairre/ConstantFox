@@ -65,7 +65,7 @@ export default class Constants extends EventEmitter {
     if (Utils.isChromeExtension()) {
       this._storage.local = chrome.storage.local;
       this._env = 'chrome';
-    } else if (Utils.isBrowser()) {
+    } else if ((Utils.isFirefox() || Utils.isChrome()) || Utils.isBrowser()) {
       this._storage = mockChromeApiWithLocalStorage(this);
       this._env = 'browser';
     } else if (Utils.isNode()) {
@@ -194,10 +194,12 @@ export default class Constants extends EventEmitter {
   toJSON() {
     const vals = {};
     const keys = Object.keys(this._defaults);
+
     for (let i = keys.length - 1; i >= 0; i--) {
       vals[keys[i]] = this[keys[i]];
     }
-    return Object.assign({}, vals);
+
+    return vals;
   }
 
   _assign(items, init) {

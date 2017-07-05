@@ -12,7 +12,7 @@ const mockChromeApiWithLocalStorage = constants => {
       const response = {};
 
       if (typeof key === 'string') {
-        attrs[key] = '';
+        attrs[key] = undefined;
       } else if (typeof key === 'object') {
         attrs = key;
       }

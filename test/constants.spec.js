@@ -1,4 +1,3 @@
-import fs from 'fs';
 import Constants from '../src/constants';
 import * as Utils from '../src/helpers';
 

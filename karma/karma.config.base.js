@@ -37,7 +37,8 @@ module.exports = {
       root: path.resolve('node_modules')
     },
     node: {
-      fs: 'empty'
+      fs: 'empty',
+      process: 'empty'
     }
   },
   webpackMiddleware: {

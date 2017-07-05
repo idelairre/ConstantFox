@@ -19,9 +19,11 @@ const mockChromeApiWithFileSystem = constants => {
       } else if (typeof key === 'object') {
         attrs = key;
       }
+      
+      const json = Utils.read('./constants.json');
 
       for (const attr in attrs) {
-        const item = Utils.marshalType(Utils.read('./constants.json')[attr]) || attrs[attr];
+        const item = Utils.marshalType(json[attr]) || attrs[attr];
         response[attr] = Utils.marshalFalsey(item);
       }
 

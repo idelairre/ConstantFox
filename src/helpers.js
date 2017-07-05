@@ -1,13 +1,15 @@
 import fs from 'fs';
 import path from 'path';
 
-export const isBrowser = new Function("try {return !!window;}catch(e){return false;}");
+export const isBrowser = new Function('{ return !!window }');
 
-export const isChrome = new Function("try {return ('chrome' in window) || chrome;}catch(e){return false;}");
+export const isChrome = new Function('{ return !!window.chrome }');
 
-export const isNode = new Function("try {return process.title;}catch(e){return false;}");
+export const isFirefox = new Function("{ return typeof InstallTrigger !== 'undefined'}");
 
-export const storageEnabled = new Function("try {return !!chrome.storage;}catch(e){return false;}");
+export const isNode = () => !!process.title;
+
+export const storageEnabled = () => !!chrome.storage;
 
 export const isChromeExtension = () => isBrowser() && isChrome() && storageEnabled();
 
@@ -15,6 +17,7 @@ export const write = (filename, data) => {
   if (typeof data !== 'string') {
     data = JSON.stringify(data);
   }
+
   const file = path.join(process.cwd(), filename);
   fs.writeFileSync(file, data, 'utf8');
 }
