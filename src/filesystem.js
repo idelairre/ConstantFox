@@ -10,17 +10,21 @@ const mockChromeApiWithFileSystem = constants => {
       if (typeof callback !== 'function') {
         throw new Error('"storage.get" expects a callback');
       }
+
       let attrs = {};
       const response = {};
+
       if (typeof key === 'string') {
         attrs[key] = '';
       } else if (typeof key === 'object') {
         attrs = key;
       }
+
       for (const attr in attrs) {
-        const item = Utils.marshalType(Utils.read('./constants.json')[attr]) || undefined;
+        const item = Utils.marshalType(Utils.read('./constants.json')[attr]) || attrs[attr];
         response[attr] = Utils.marshalFalsey(item);
       }
+
       return callback(response);
     },
     set(items, callback) {

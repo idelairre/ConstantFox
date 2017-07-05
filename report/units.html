@@ -9,14 +9,14 @@
     <h1>Unit Tests</h1>
     <section>
       <header class="overview">
-        <div class="browser">Browser: Chrome 54.0.2840 (Windows 7 0.0.0)</div>
-        <div class="timestamp">Timestamp: 12/2/2016, 6:59:37 PM</div>
+        <div class="browser">Browser: Chrome 59.0.3071 (Windows 10 0.0.0)</div>
+        <div class="timestamp">Timestamp: 7/5/2017, 5:55:37 PM</div>
         <p class="results">
-          25 tests / 
+          27 tests / 
           0 errors / 
           0 failures / 
           0 skipped / 
-          runtime: 5.934s
+          runtime: 6.89s
         </p>
       </header>
       <div class="spec spec--pass" style="">
@@ -25,7 +25,7 @@
             <p class="spec__suite">Constants</p>
             <em class="spec__descrip">should work</em>
           </div>
-          <div class="spec__status">Passed in 0.001s</div>
+          <div class="spec__status">Passed in 0.004s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -34,7 +34,16 @@
             <p class="spec__suite">Constants</p>
             <em class="spec__descrip">should have a version number</em>
           </div>
-          <div class="spec__status">Passed in 0.001s</div>
+          <div class="spec__status">Passed in 0.002s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">Constants</p>
+            <em class="spec__descrip">should correctly initialize</em>
+          </div>
+          <div class="spec__status">Passed in 0.008s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -51,6 +60,15 @@
           <div class="spec__title">
             <p class="spec__suite">Constants</p>
             <em class="spec__descrip">should assign default values to the "_previous" hash</em>
+          </div>
+          <div class="spec__status">Passed in 0.001s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">toJSON()</p>
+            <em class="spec__descrip">should correctly return undefined values</em>
           </div>
           <div class="spec__status">Passed in 0.001s</div>
         </h3>
@@ -79,7 +97,7 @@
             <p class="spec__suite">get()</p>
             <em class="spec__descrip">should convert numbers and booleans to their corresponding types on access</em>
           </div>
-          <div class="spec__status">Passed in 0.001s</div>
+          <div class="spec__status">Passed in 0.867s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -88,7 +106,7 @@
             <p class="spec__suite">get()</p>
             <em class="spec__descrip">should persist stored types</em>
           </div>
-          <div class="spec__status">Passed in 0.93s</div>
+          <div class="spec__status">Passed in 1s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -97,7 +115,7 @@
             <p class="spec__suite">get()</p>
             <em class="spec__descrip">should allow new instances of "Constants" to access stored items</em>
           </div>
-          <div class="spec__status">Passed in 0s</div>
+          <div class="spec__status">Passed in 0.001s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -115,7 +133,7 @@
             <p class="spec__suite">changedAttributes()</p>
             <em class="spec__descrip">should correctly update changed properties</em>
           </div>
-          <div class="spec__status">Passed in 0s</div>
+          <div class="spec__status">Passed in 0.999s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -124,7 +142,7 @@
             <p class="spec__suite">changedAttributes()</p>
             <em class="spec__descrip">should maintain the changed hash after multiple updates</em>
           </div>
-          <div class="spec__status">Passed in 2.998s</div>
+          <div class="spec__status">Passed in 3s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -133,7 +151,7 @@
             <p class="spec__suite">changedAttributes()</p>
             <em class="spec__descrip">changes hash should correctly remove old values</em>
           </div>
-          <div class="spec__status">Passed in 0s</div>
+          <div class="spec__status">Passed in 0.001s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -142,7 +160,7 @@
             <p class="spec__suite">defaults()</p>
             <em class="spec__descrip">should return all default values</em>
           </div>
-          <div class="spec__status">Passed in 0.001s</div>
+          <div class="spec__status">Passed in 0s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -151,7 +169,7 @@
             <p class="spec__suite">default()</p>
             <em class="spec__descrip">should return the default value for the requested key</em>
           </div>
-          <div class="spec__status">Passed in 0s</div>
+          <div class="spec__status">Passed in 0.001s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -160,7 +178,7 @@
             <p class="spec__suite">set()</p>
             <em class="spec__descrip">should correctly assign current values to the _previous hash</em>
           </div>
-          <div class="spec__status">Passed in 0.999s</div>
+          <div class="spec__status">Passed in 0s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -187,7 +205,7 @@
             <p class="spec__suite">reset()</p>
             <em class="spec__descrip">should emit a reset event</em>
           </div>
-          <div class="spec__status">Passed in 0.001s</div>
+          <div class="spec__status">Passed in 0.002s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -196,7 +214,7 @@
             <p class="spec__suite">clear()</p>
             <em class="spec__descrip">should remove all managed values from local storage</em>
           </div>
-          <div class="spec__status">Passed in 0.001s</div>
+          <div class="spec__status">Passed in 0s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -205,7 +223,7 @@
             <p class="spec__suite">remove()</p>
             <em class="spec__descrip">should remove the given key from storage</em>
           </div>
-          <div class="spec__status">Passed in 0s</div>
+          <div class="spec__status">Passed in 0.001s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -223,7 +241,7 @@
             <p class="spec__suite">constructor</p>
             <em class="spec__descrip">should make values available on ready</em>
           </div>
-          <div class="spec__status">Passed in 0.996s</div>
+          <div class="spec__status">Passed in 0.998s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -232,7 +250,263 @@
             <p class="spec__suite">initialization</p>
             <em class="spec__descrip">should call initialization functions</em>
           </div>
+          <div class="spec__status">Passed in 0.001s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">initialization</p>
+            <em class="spec__descrip">should emit initialization events</em>
+          </div>
           <div class="spec__status">Passed in 0s</div>
+        </h3>
+      </div>
+    </section>
+    <section>
+      <header class="overview">
+        <div class="browser">Browser: Firefox 54.0.0 (Windows 10 0.0.0)</div>
+        <div class="timestamp">Timestamp: 7/5/2017, 5:55:37 PM</div>
+        <p class="results">
+          27 tests / 
+          0 errors / 
+          0 failures / 
+          0 skipped / 
+          runtime: 0.098s
+        </p>
+      </header>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">Constants</p>
+            <em class="spec__descrip">should work</em>
+          </div>
+          <div class="spec__status">Passed in 0.008s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">Constants</p>
+            <em class="spec__descrip">should have a version number</em>
+          </div>
+          <div class="spec__status">Passed in 0.011s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">Constants</p>
+            <em class="spec__descrip">should correctly initialize</em>
+          </div>
+          <div class="spec__status">Passed in 0.014s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">Constants</p>
+            <em class="spec__descrip">should utilize the correct storage strategy depending on the environment</em>
+          </div>
+          <div class="spec__status">Passed in 0.004s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">Constants</p>
+            <em class="spec__descrip">should assign default values to the "_previous" hash</em>
+          </div>
+          <div class="spec__status">Passed in 0.002s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">toJSON()</p>
+            <em class="spec__descrip">should correctly return undefined values</em>
+          </div>
+          <div class="spec__status">Passed in 0.001s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">get()</p>
+            <em class="spec__descrip">should return the value indexed at the given key</em>
+          </div>
+          <div class="spec__status">Passed in 0.005s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">get()</p>
+            <em class="spec__descrip">should persist values to local storage or file system</em>
+          </div>
+          <div class="spec__status">Passed in 0.002s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">get()</p>
+            <em class="spec__descrip">should convert numbers and booleans to their corresponding types on access</em>
+          </div>
+          <div class="spec__status">Passed in 0.002s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">get()</p>
+            <em class="spec__descrip">should persist stored types</em>
+          </div>
+          <div class="spec__status">Passed in 0.01s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">get()</p>
+            <em class="spec__descrip">should allow new instances of "Constants" to access stored items</em>
+          </div>
+          <div class="spec__status">Passed in 0.001s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">get()</p>
+            <em class="spec__descrip">should use arguments as the response values when unassigned values are requested</em>
+          </div>
+          <div class="spec__status">Passed in 0.002s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">changedAttributes()</p>
+            <em class="spec__descrip">should correctly update changed properties</em>
+          </div>
+          <div class="spec__status">Passed in 0.001s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">changedAttributes()</p>
+            <em class="spec__descrip">should maintain the changed hash after multiple updates</em>
+          </div>
+          <div class="spec__status">Passed in 0.014s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">changedAttributes()</p>
+            <em class="spec__descrip">changes hash should correctly remove old values</em>
+          </div>
+          <div class="spec__status">Passed in 0.001s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">defaults()</p>
+            <em class="spec__descrip">should return all default values</em>
+          </div>
+          <div class="spec__status">Passed in 0.002s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">default()</p>
+            <em class="spec__descrip">should return the default value for the requested key</em>
+          </div>
+          <div class="spec__status">Passed in 0.004s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">set()</p>
+            <em class="spec__descrip">should correctly assign current values to the _previous hash</em>
+          </div>
+          <div class="spec__status">Passed in 0.002s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">reset()</p>
+            <em class="spec__descrip">should reset all values if no key is passed</em>
+          </div>
+          <div class="spec__status">Passed in 0.001s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">reset()</p>
+            <em class="spec__descrip">should reset the value of the key passed</em>
+          </div>
+          <div class="spec__status">Passed in 0.001s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">reset()</p>
+            <em class="spec__descrip">should emit a reset event</em>
+          </div>
+          <div class="spec__status">Passed in 0.002s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">clear()</p>
+            <em class="spec__descrip">should remove all managed values from local storage</em>
+          </div>
+          <div class="spec__status">Passed in 0.002s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">remove()</p>
+            <em class="spec__descrip">should remove the given key from storage</em>
+          </div>
+          <div class="spec__status">Passed in 0.002s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">constructor</p>
+            <em class="spec__descrip">should emit ready event</em>
+          </div>
+          <div class="spec__status">Passed in 0.001s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">constructor</p>
+            <em class="spec__descrip">should make values available on ready</em>
+          </div>
+          <div class="spec__status">Passed in 0.001s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">initialization</p>
+            <em class="spec__descrip">should call initialization functions</em>
+          </div>
+          <div class="spec__status">Passed in 0.001s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -247,14 +521,14 @@
     </section>
     <section>
       <header class="overview">
-        <div class="browser">Browser: Firefox 47.0.0 (Windows 7 0.0.0)</div>
-        <div class="timestamp">Timestamp: 12/2/2016, 6:59:37 PM</div>
+        <div class="browser">Browser: PhantomJS 2.1.1 (Windows 8 0.0.0)</div>
+        <div class="timestamp">Timestamp: 7/5/2017, 5:55:37 PM</div>
         <p class="results">
-          25 tests / 
+          27 tests / 
           0 errors / 
           0 failures / 
           0 skipped / 
-          runtime: 0.032s
+          runtime: 0.061s
         </p>
       </header>
       <div class="spec spec--pass" style="">
@@ -263,7 +537,7 @@
             <p class="spec__suite">Constants</p>
             <em class="spec__descrip">should work</em>
           </div>
-          <div class="spec__status">Passed in 0.001s</div>
+          <div class="spec__status">Passed in 0.005s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -272,7 +546,16 @@
             <p class="spec__suite">Constants</p>
             <em class="spec__descrip">should have a version number</em>
           </div>
-          <div class="spec__status">Passed in 0.001s</div>
+          <div class="spec__status">Passed in 0.004s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">Constants</p>
+            <em class="spec__descrip">should correctly initialize</em>
+          </div>
+          <div class="spec__status">Passed in 0.003s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -290,14 +573,14 @@
             <p class="spec__suite">Constants</p>
             <em class="spec__descrip">should assign default values to the "_previous" hash</em>
           </div>
-          <div class="spec__status">Passed in 0s</div>
+          <div class="spec__status">Passed in 0.002s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
         <h3 class="spec__header">
           <div class="spec__title">
-            <p class="spec__suite">get()</p>
-            <em class="spec__descrip">should return the value indexed at the given key</em>
+            <p class="spec__suite">toJSON()</p>
+            <em class="spec__descrip">should correctly return undefined values</em>
           </div>
           <div class="spec__status">Passed in 0.001s</div>
         </h3>
@@ -306,9 +589,18 @@
         <h3 class="spec__header">
           <div class="spec__title">
             <p class="spec__suite">get()</p>
+            <em class="spec__descrip">should return the value indexed at the given key</em>
+          </div>
+          <div class="spec__status">Passed in 0.002s</div>
+        </h3>
+      </div>
+      <div class="spec spec--pass" style="">
+        <h3 class="spec__header">
+          <div class="spec__title">
+            <p class="spec__suite">get()</p>
             <em class="spec__descrip">should persist values to local storage or file system</em>
           </div>
-          <div class="spec__status">Passed in 0s</div>
+          <div class="spec__status">Passed in 0.001s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -317,7 +609,7 @@
             <p class="spec__suite">get()</p>
             <em class="spec__descrip">should convert numbers and booleans to their corresponding types on access</em>
           </div>
-          <div class="spec__status">Passed in 0.002s</div>
+          <div class="spec__status">Passed in 0.003s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -353,7 +645,7 @@
             <p class="spec__suite">changedAttributes()</p>
             <em class="spec__descrip">should correctly update changed properties</em>
           </div>
-          <div class="spec__status">Passed in 0.001s</div>
+          <div class="spec__status">Passed in 0.003s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -362,7 +654,7 @@
             <p class="spec__suite">changedAttributes()</p>
             <em class="spec__descrip">should maintain the changed hash after multiple updates</em>
           </div>
-          <div class="spec__status">Passed in 0.013s</div>
+          <div class="spec__status">Passed in 0.008s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -389,7 +681,7 @@
             <p class="spec__suite">default()</p>
             <em class="spec__descrip">should return the default value for the requested key</em>
           </div>
-          <div class="spec__status">Passed in 0s</div>
+          <div class="spec__status">Passed in 0.001s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -416,7 +708,7 @@
             <p class="spec__suite">reset()</p>
             <em class="spec__descrip">should reset the value of the key passed</em>
           </div>
-          <div class="spec__status">Passed in 0s</div>
+          <div class="spec__status">Passed in 0.002s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -425,7 +717,7 @@
             <p class="spec__suite">reset()</p>
             <em class="spec__descrip">should emit a reset event</em>
           </div>
-          <div class="spec__status">Passed in 0.001s</div>
+          <div class="spec__status">Passed in 0.007s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -443,7 +735,7 @@
             <p class="spec__suite">remove()</p>
             <em class="spec__descrip">should remove the given key from storage</em>
           </div>
-          <div class="spec__status">Passed in 0s</div>
+          <div class="spec__status">Passed in 0.001s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -461,7 +753,7 @@
             <p class="spec__suite">constructor</p>
             <em class="spec__descrip">should make values available on ready</em>
           </div>
-          <div class="spec__status">Passed in 0.001s</div>
+          <div class="spec__status">Passed in 0.003s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -470,7 +762,7 @@
             <p class="spec__suite">initialization</p>
             <em class="spec__descrip">should call initialization functions</em>
           </div>
-          <div class="spec__status">Passed in 0s</div>
+          <div class="spec__status">Passed in 0.003s</div>
         </h3>
       </div>
       <div class="spec spec--pass" style="">
@@ -479,7 +771,7 @@
             <p class="spec__suite">initialization</p>
             <em class="spec__descrip">should emit initialization events</em>
           </div>
-          <div class="spec__status">Passed in 0.001s</div>
+          <div class="spec__status">Passed in 0.002s</div>
         </h3>
       </div>
     </section>

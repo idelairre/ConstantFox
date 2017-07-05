@@ -7,17 +7,21 @@ const mockChromeApiWithLocalStorage = constants => {
       if (typeof callback !== 'function') {
         throw new Error('"storage.get" expects a callback');
       }
+
       let attrs = {};
       const response = {};
+
       if (typeof key === 'string') {
         attrs[key] = '';
       } else if (typeof key === 'object') {
         attrs = key;
       }
+
       for (const attr in attrs) {
-        const item = Utils.marshalType(localStorage.getItem(attr)) || undefined;
+        const item = Utils.marshalType(localStorage.getItem(attr)) || attrs[attr];
         response[attr] = Utils.marshalFalsey(item);
       }
+
       return callback(response);
     },
     set(items, callback) {
@@ -26,7 +30,7 @@ const mockChromeApiWithLocalStorage = constants => {
       } else {
         for (const key in items) {
           if (Utils.isNull(items[key])) {
-           localStorage.setItem(key, '`null');
+            localStorage.setItem(key, '`null');
           } else if (typeof items[key] === 'object') {
             localStorage.setItem(key, JSON.stringify(items[key]));
           } else {
