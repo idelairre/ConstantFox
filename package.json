@@ -1,8 +1,8 @@
 {
   "name": "constant-fox",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "",
-  "main": "lib/constant-fox.min.js",
+  "main": "lib/constant-fox.js",
   "files": [
     "lib",
     "src"
@@ -15,7 +15,7 @@
     "test:teamcity": "karma start karma/karma.config.production.js",
     "build:umd": "webpack src/constants.js --config webpack/webpack.config.development.js",
     "build:umd:min": "webpack src/constants.js --config webpack/webpack.config.production.js",
-    "build": "npm run clean && npm run build:umd:min"
+    "build": "npm run clean && npm run build:umd && npm run build:umd:min"
   },
   "npmName": "constant-fox",
   "author": "Ian Delairre <idelairre@gmail.com>",

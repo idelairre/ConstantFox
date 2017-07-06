@@ -23,12 +23,7 @@ export default class Constants extends EventEmitter {
   constructor(options = {}) {
     super();
 
-    if (typeof options === 'object') {
-      const keys = Object.keys(options);
-      for (let i = keys.length - 1; i >= 0; i--) {
-        this._defaults[keys[i]] = options[keys[i]];
-      }
-    }
+    this._defaults = options;
 
     this.once('initialized', () => {
       this._storage.local.get(options, vals => {
@@ -48,6 +43,7 @@ export default class Constants extends EventEmitter {
         this.emit('reset');
         return;
       }
+
       this._initialized = true;
       this.emit('initialized');
     });
@@ -74,7 +70,8 @@ export default class Constants extends EventEmitter {
     } else {
       throw new Error('Cannot detect JavaScript context');
     }
-    if (callback) {
+
+    if (typeof callback === 'function') {
       return callback();
     }
   }

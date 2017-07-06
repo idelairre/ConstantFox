@@ -62,9 +62,11 @@ export const isEmpty = item => {
   if ((Array.isArray(item) || typeof item === 'string') && item.length === 0) {
     return true;
   }
+
   if (typeof item === 'object' && Object.keys(item).length === 0) {
     return true;
   }
+
   return false;
 }
 
@@ -131,6 +133,16 @@ export const isObject = test => {
   }
 }
 
+export const isUndefined = test => {
+  if (typeof test === 'string' && test === 'undefined') {
+    return true;
+  } else if (typeof test === 'undefined') {
+    return true;
+  }
+
+  return false;
+}
+
 export const merge = (source, target) => {
   if (!source) {
     throw new Error('source is invalid');
@@ -156,6 +168,8 @@ export const marshalType = item => {
     item = null;
   } else if (isBoolean(item)) {
     item = item; // marshal later
+  } else if (isUndefined(item)) {
+    item = undefined;
   } else if (isObject(item)) {
     item = JSON.parse(item);
   }
@@ -168,7 +182,9 @@ export const marshalFalsey = item => {
       return convertBool(item);
     } else if (isNull(item)) {
       return null;
+    } else if (isUndefined(item)) {
+      return undefined;
     }
   }
-  return item; // it has to be undefined
+  return item;
 }
